@@ -1,0 +1,338 @@
+/*Perusion  Strap30 adds*/
+
+body {
+  margin: 0;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 18px;
+  color: #333;
+  background-color: #ffffff;
+}
+
+/* General Typography adds */
+
+/*Quick adjustment helper classes*/
+/*use as m = margin p = padding t = top b = bottom  followed by number*/
+/*for margin-top:5px add class "mt5" */
+
+.mt5{
+	margin-top:5px;
+}
+.mt10{
+	margin-top:10px;
+}
+.mt15{
+	margin-top:15px;
+}
+.mt20{
+	margin-top:20px;
+}
+.mt25{
+	margin-top:25px;
+}
+.mb5{
+	margin-bottom:5px;
+}
+.mb10{
+	margin-bottom:10px;
+}
+.mb15{
+	margin-bottom:15px;
+}
+.mb20{
+	margin-bottom:20px;
+}
+.mb25{
+	margin-bottom:25px;
+}
+.pt5{
+	padding-top:5px;
+}
+.pt10{
+	padding-top:10px;
+}
+.pt15{
+	padding-top:15px;
+}
+.pt20{
+	padding-top:20px;
+}
+.pt25{
+	padding-top:25px;
+}
+.pb5{
+	padding-bottom:5px;
+}
+.pb10{
+	padding-bottom:10px;
+}
+.pb15{
+	padding-bottom:15px;
+}
+.pb20{
+	padding-bottom:20px;
+}
+.pb25{
+	padding-bottom:25px;
+}
+.ml5{
+	margin-left:5px;
+}
+.ml10{
+	margin-left:10px;
+}
+.ml15{
+	margin-left:15px;
+}
+.ml20{
+	margin-left:20px;
+}
+.ml25{
+	margin-left:25px;
+}
+.mr5{
+	margin-right:5px;
+}
+.mr10{
+	margin-right:10px;
+}
+.mr15{
+	margin-right:15px;
+}
+.mr20{
+	margin-right:20px;
+}
+.mr25{
+	margin-right:25px;
+}
+.pl5{
+	padding-left:5px;
+}
+.pl10{
+	padding-left:10px;
+}
+.pl15{
+	padding-left:15px;
+}
+.pl20{
+	padding-left:20px;
+}
+.pl25{
+	padding-left:25px;
+}
+.pr5{
+	padding-right:5px;
+}
+.pr10{
+	padding-right:10px;
+}
+.pr15{
+	padding-right:15px;
+}
+.pr20{
+	padding-right:20px;
+}
+.pr25{
+	padding-right:25px;
+}
+.btlr {
+	-webkit-border-radius: 5px 5px 0 0;
+	-moz-border-radius: 5px 5px 0 0;
+	border-radius: 5px 5px 0 0;
+}
+.btl {
+	-webkit-border-radius: 5px 0 0 0;
+	-moz-border-radius: 5px 0 0 0;
+	border-radius: 5px 0 0 0;
+}
+.btr {
+	-webkit-border-radius: 0 5px 0 0;
+	-moz-border-radius: 0 5px 0 0;
+	border-radius: 0 5px 0 0;
+}
+a.bg-primary:link, a.bg-primary:hover{
+	color:#fff!important;
+}
+
+.showcursor{
+	cursor:pointer;
+}
+
+/* Button btn adds */
+
+.btn-buy{
+	background-color:#d2aa55;
+	border-color:#d2a33e;
+	color:#FFF;
+}
+.btn-buy-component{
+	padding:1px 10px 1px 10px;
+}
+/* Cart adds */
+
+.cart_bq{
+	font-size:10px;
+	margin-top:5px;
+	margin-bottom:5px;
+	padding-top:0px;
+	padding-bottom:5px;
+}
+.cart_bq i{
+	font-size:11px;
+	font-weight:bold;
+}
+
+/* Form adds */
+
+.input-tiny {
+  width: 30px;
+}
+
+.hbar {
+  background-color: #green !important;
+  border-radius:4px;
+}
+
+/*Changes to navbar */
+
+
+.navbar-inverse {
+  color:#FFF;
+  background-color: #428BCA;
+  border-color: #044C9B;
+}
+
+.navbar-inverse .navbar-nav>li>a {
+	color:#FFF;
+	font-weight:bold;
+}
+.navbar-inverse .navbar-nav > .active > a,
+.navbar-inverse .navbar-nav > .active > a:hover,
+.navbar-inverse .navbar-nav > .active > a:focus {
+  color: #fff;
+  background-color: #044C9B;
+}
+
+.navbar-inverse .navbar-nav > .open > a,
+.navbar-inverse .navbar-nav > .open > a:hover,
+.navbar-inverse .navbar-nav > .open > a:focus {
+  color: #fff;
+  background-color: #044C9B;
+}
+
+#fpwebimg{
+  border-radius:4px;
+}
+
+/* multi level dropdown adds*/
+
+.dropdown-menu a {
+  display: block;
+  padding: 3px 15px;
+  clear: both;
+  font-weight: normal;
+  line-height: 18px;
+  color: #0088cc;
+  white-space: nowrap;
+}
+
+.nav li.dropdown ul.dropdown-menu li:HOVER ul {
+	display:block;
+	position:absolute;
+	left:100%;
+	-webkit-border-radius: 3px;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+}
+
+.nav li.dropdown ul.dropdown-menu ul {
+	display: none;
+	float:right;
+	position: relative;
+	top: auto;
+	margin-top: -30px;
+}
+
+.navbar .btn {
+  margin-bottom:11px !important;
+  margin-top:0px !important;
+  padding-bottom: 5px;
+  padding-top: 6px;
+}
+
+.per_small{
+	font-size:10px! important;
+	line-height:10px! important;
+}
+
+.help-below{
+	font-size:10px;
+	font-style:italic;
+	font-weight:normal;
+	margin-top:5px;
+	margin-left:10px;
+}
+
+/* direct bootstrap overrides */
+
+.list-group-item-b{
+	background-color:#428BCA!important;
+	color:#FFF!important;
+}
+
+.table tbody tr:hover td,
+.table tbody tr:hover th {
+  background-color: transparent!important;
+}
+
+.table-hover tbody tr:hover td,
+.table-hover tbody tr:hover th {
+  background-color: #f5f5f5;
+}
+
+.nav-list > li > a,
+.nav-list .nav-header {
+  margin-left: 0px;
+}
+
+.pgroup > li > a {
+  display: inline;
+  font-weight:bold;
+}
+
+.pgroup > li:hover{
+	background-color:#EEEEEE;
+}
+
+@media (max-width: 767px) {
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .dropdown-header {
+    border-color: #080808;
+	  border-color: #044C9B;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu .divider {
+    background-color: #080808;
+	  background-color: #428BCA;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a {
+    color: #999;
+    color: #FFF;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > li > a:focus {
+    color: #fff;
+    background-color: #CCC;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .active > a:focus {
+    color: #fff;
+    background-color: #080808;
+	  background-color: #428BCA;
+  }
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:hover,
+  .navbar-inverse .navbar-nav .open .dropdown-menu > .disabled > a:focus {
+    color: #FFF;
+    background-color: #CCC;
+  }
+}

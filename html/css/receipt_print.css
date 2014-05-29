@@ -1,0 +1,55 @@
+H1{
+	margin-left:20px;
+}
+
+hr{
+	float:left;
+	margin-left:20px;
+	margin-right:20px;
+	margin-top:20px;
+	margin-bottom:20px;
+	color:#CCC;
+	width:95%;
+}
+.rp_table {
+	width:95%;
+	float:left;
+	margin-left:20px;
+}
+.rp_table th{
+	width:20%;
+	text-align:left;
+}
+.rp_table td{
+	width:80%;
+	text-align:left;
+	padding-left:10px;
+}
+.rp_items {
+	width:95%;
+	float:left;
+	margin-left:20px;
+}
+.rp_items th{
+	border-top:1px solid #CCC;
+	border-bottom:1px solid #CCC;
+}
+.qty {
+	text-align:left;
+}
+.item_l {
+	text-align:left;
+}
+.item {
+	text-align:center;
+}
+.desc {
+	text-align:left;
+	padding-left:2%;
+}
+.price {
+	text-align:right;
+}
+.ext {
+	text-align:right;
+}

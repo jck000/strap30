@@ -1,0 +1,66 @@
+[set NewAccount]
+[calc]delete $Scratch->{usernick};[/calc]
+[if type=explicit compare="[userdb function=new_account ignore_case=1]"]
+[userdb function=save]
+[calc]
+	my $to = $Session->{username};
+Debug("username:$Values->{mv_username} usernick:$Values->{usernick}");
+	my $stuff = $Scratch->{mv_autocreate};
+	my @unc = split "\n", $stuff;
+	my $from;
+	foreach(@unc){
+		next unless $_ =~ /mv_username=(\w+)$/;
+		$from = $1;
+		last;
+	}
+	$from =~ s/^\s+//;
+	$from =~ s/\s+$//;
+	Debug("sending to:$to from:$from");
+	$Tag->tmp({ name => 'mfrom', body => $from });
+	$Tag->tmp({ name => 'mto', body => $to });
+	return;
+[/calc]
+[if scratch mv_autocreate][user_merge from="[scratch mfrom]" to="[scratch mto]" from-user=1 onetime=1][/if]
+mv_successpage=member/account
+mv_nextpage=member/account
+[else]
+mv_nextpage=login
+[/else]
+[/if]
+[/set]
+
+<FORM ACTION="[area href=account]" METHOD=POST name="co_newacct" id="co_newacct">
+<INPUT TYPE=hidden NAME=mv_session_id VALUE="[data session id]">
+<INPUT TYPE=hidden NAME=mv_click VALUE=NewAccount>
+<INPUT TYPE=hidden NAME=mv_action  VALUE=return>
+<INPUT TYPE=hidden NAME=mv_nextpage VALUE=index>
+<INPUT TYPE=hidden NAME=mv_failpage VALUE="@@MV_PAGE@@">
+<INPUT TYPE=hidden NAME=new_customer VALUE=1>
+
+<table class="">
+	<tr> 
+	  <td class=oi_table_field_h>
+		<label for="mv_password">
+		<i>*</i>[error name=mv_password std_label="[L]Password[/L]" required=1]
+		</label>
+		<input type="hidden" NAME=mv_username VALUE="[value email]">
+		<input type="hidden" NAME=email VALUE="[value email]">
+		<INPUT TYPE=password id=mv_password NAME=mv_password VALUE="">
+	  </td>
+	  <td class=oi_table_spacer>
+		&nbsp;
+	  </td>
+	  <td class="oi_table_field_h">
+		<label for="b_lname">
+		<i>*</i>[error name=mv_verify std_label="[L]Verify Password[/L]" required=1]
+		</label>
+		<INPUT TYPE=password id=mv_verify NAME=mv_verify VALUE="" class="">
+	  </td>
+	</tr>
+	<tr> 
+	  <td colspan=3 style="padding-top:10px;"> 
+			<button TYPE=SUBMIT class="btn"> <i class=icon-plus-sign></i> CREATE ACCOUNT </button>
+	  </td>
+	</tr>
+</table>
+</FORM>

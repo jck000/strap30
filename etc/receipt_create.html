@@ -1,0 +1,143 @@
+[tmp page_title]__COMPANY__ -- Receipt[/tmp]
+[tmp display_class]noleft[/tmp]
+[tmp jquery_after]
+			//example of how to load additional js scripts
+			getScript('__JS_DIR__/jquery.PrintArea.js',function(){
+				$(document).ready(function() {
+					//put code reliant on above script here
+					$("#printmodal").click(function(){
+						$("div#printable").printArea({
+							mode:"popup",
+							popHt:500,
+							popWd:900,
+							popX:200,
+							popY:100,
+							popClose:false
+						});
+					});
+				});
+			});
+			getScript('//ajax.aspnetcdn.com/ajax/jquery.validate/1.11.0/jquery.validate.min.js',function(){
+				$(document).ready(function() {
+					//put code reliant on above script here
+					$('#co_newacct').validate({
+
+						errorClass: 'alert alert-error',
+						errorElement: "div",
+
+						rules : {
+							mv_password: {
+								required: true,
+							},
+							mv_verify: {
+								required: true,
+								equalTo: "#mv_password"
+							}
+						},
+						messages : {
+							mv_password: {
+								required: "You need to enter an password",
+							},
+							mv_verify: {
+								required: "You need to enter your password again.",
+								equalTo: "Please re-enter your password. It must match!"
+							}
+						},
+				// Uncomment to hide error messages and just highlight of error input
+				// highlight section for various effects on input area and title
+				// Can use if then to be selective
+
+				//		errorPlacement: function(error,element){},
+
+						highlight: function(element, errorClass, validClass) {
+							$(element).addClass(errorClass).removeClass(validClass);
+							$(element).prev().addClass('alert alert-error');
+							$(element).prev().children("i").first().text("");
+						},
+
+						unhighlight: function(element, errorClass, validClass) {
+							$(element).removeClass(errorClass).addClass(validClass);
+							$(element).prev().removeClass('alert alert-error');
+							$(element).prev().children("i").first().text("*");
+						}
+					});
+				});
+			});
+[/tmp]
+
+[tmp css]
+<link rel="stylesheet" media="print" href="__CSS_DIR__/receipt_print.css">
+[/tmp]
+
+@_TOP_@
+<!-- BEGIN CONTENT -->
+<h2>
+	Thank You For Your Order!
+</h2>
+
+
+<table class="table">
+	<tr>
+		<th>
+		Order #[value mv_order_number]
+		</th>
+	</tr>
+	<tr>
+		<td>
+		<p>
+		We'll verify your order and handle any special instructions you might have given us. An email acknowledgment will follow. Please don't hesitate to contact us with any questions or concerns you might have at @_TOLLFREE_@.
+		</p>
+		<p>
+		 Thanks again for shopping with us. You may wish print a receipt for your records. 
+		 Thank you for your order!
+		</p>
+		<p>
+			<br>
+			<br>
+			<a href="[area index]">Back to Home Page</a>
+		</p>
+		</td>
+	</tr>
+	<tr>
+		<td>
+			<button type=button class="btn info" id="printmodal"><i class="icon-print"></i> PRINTABLE RECEIPT</button> &nbsp; &nbsp;
+		</td>
+	</tr>
+	<tr>
+		<td>
+			&nbsp;
+		</td>
+	</tr>
+[if !session logged_in]
+	<tr>
+		<th>
+			Would You Like to Create An Account Using the Information You Have Already Entered?
+		</th>
+	</tr>
+	<tr>
+		<td>
+			You are always welcome to checkout as a Guest, however, creating an online account (registering) does expand your available options and enhance your experience when visiting our site. By logging in with your email, you'll be able to:
+
+			<UL>
+				<li>Create a Wishlist</li>
+
+				<li> View past online orders</li>
+
+				<li> Save your billing and shipping info for faster checkout</li>
+			</UL>
+			[include include/checkout/create_account]
+		</td>
+	</tr>
+[/if]
+	<tr>
+		<td>
+			&nbsp;
+		</td>
+	</tr>
+</table>
+<div id="printable" style="display:none">
+[include include/checkout/receipt_print]
+</div>
+
+<!-- END CONTENT -->
+@_BOTTOM_@

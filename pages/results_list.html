@@ -1,0 +1,396 @@
+[calc]
+	## set match_count here, gets screwed up later, for some reason
+	$mc = $Values->{mv_search_match_count};
+	return;
+[/calc]
+[tmp page_title]__COMPANY__ -- [L]Search Results List[/L][/tmp]
+[if value more_link]
+	[tmp page_title]__COMPANY__ -- [either][value-extended name=mv_searchspec joiner=" / "][or][value name=more_link filter=uri2string keep=1][/either][/tmp]
+[/if]
+
+[control reset=1]
+[control-set]
+	[component]search_box_small[/component]
+	[output]left[/output]
+[/control-set]
+[control-set]
+	[component]product_tree[/component]
+	[show_categories]1[/show_categories]
+	[output]left[/output]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component][/component]
+[/control-set]
+[control-set]
+	[component]cross[/component]
+	[banner][L]Also see...[/L][/banner]
+	[class]col-sm-12[/class]
+	[cols]2[/cols]
+	[size]2[/size]
+	[output]bottom[/output]
+[/control-set]
+[control-set]
+	[component]random[/component]
+	[banner][L]Specials[/L][/banner]
+	[cols]1[/cols]
+	[size]3[/size]
+	[output]right[/output]
+[/control-set]
+[control-set]
+	[component]cart_display[/component]
+	[class]col-sm-12[/class]
+	[output]top[/output]
+[/control-set]
+[control reset=1]
+
+@_TOP_@
+<!-- BEGIN CONTENT -->
+<div class="col-md-12 col-xs-12">
+
+[if value more_link]
+	[tmp page_title]__COMPANY__ -- [either][value-extended name=mv_searchspec joiner=" / "][or][value name=more_link filter=uri2string keep=1][/either][/tmp]
+[/if]
+
+[search-region]
+
+[on-match]
+[tmp meta_header]
+[calcn]
+	return unless $Values->{more_link};
+	(my $more_page = $Session->{last_url}) =~ s|^/.*/(.*)(\.html)?|$1|;
+	my ($ml, $fm, $mc, $canon, $rel_prev, $rel_next) = ( $Values->{mv_matchlimit}, $Values->{mv_first_match}, $Values->{mv_search_match_count}, undef, undef, undef );
+##
+## mv_search_match_count is off after first page
+##
+Debug("more_page=$more_page, ml=$ml, fm=$fm, mc=$mc");
+	my ($prev, $next);
+	REL: {
+		last REL if $mc < $ml;
+		if($fm == 0) {  # first page
+			$rel_next = $Values->{more_link} . '/2';
+		}
+		elsif( ($mc - $fm - $ml) <= 0 ) {  # last page
+			$prev = sprintf("%.0f", ($mc / $ml)-1);
+			$rel_prev = $Values->{more_link} . '/' . ($prev ? $prev : '1');
+		}
+		else {  # page 2 to second-to-last
+			$prev = sprintf("%.0f", ($fm / $ml));
+			$next = $prev + 2;
+			$rel_prev = $Values->{more_link} . "/$prev";
+			$rel_next = $Values->{more_link} . "/$next";
+		}
+	}
+	CANON: {
+		last CANON if $more_page !~ /^1|(Next)|(Prev)/;
+		if($more_page == 1) {
+			$canon = '';
+		}
+		else {
+			$canon = ($fm+$ml) / $ml;
+			$canon = '' if $canon == 1;
+		}
+		$canon = $Values->{more_link} . ($canon ? "/$canon" : '');
+	}
+	my @out;
+	my $url = $Variable->{SAMPLEURL} . $Variable->{CGI_URL};
+	my $ext = $Scratch->{mv_add_dot_html} ? '.html' : '';
+	$url !~ /\/$/ ? $url .= '/' : '';
+	push @out, qq{<link rel="prev" href="$url$rel_prev$ext">} if $rel_prev;
+	push @out, qq{<link rel="next" href="$url$rel_next$ext">} if $rel_next;
+	$Tag->tmp('rel_next', 1) if $rel_next;
+	push @out, qq{<link rel="canonical" href="$url$canon$ext">} if $canon;
+	if ($prev || $next) { $Scratch->{page_title} = $Scratch->{page_title} . ' - Page ' . (($prev || $next)+1) };
+	return "\t" . join "\n\t", @out;
+[/calcn]
+[/tmp]
+<h2>[either][value name=more_link filter=uri2string keep=1][or]Search Results[/either]</h2>
+[/on-match]
+
+[tmp bw_more]
+[more-list]
+[first-anchor][/first-anchor][last-anchor][/last-anchor]
+[link-template]<li class="$CLASS$"><a href="[area href=|[value more_link]/$ANCHOR$|]">$ANCHOR$</a></li>[/link-template]
+	<ul class="pagination pagination-centered">{PREV_LINK}{MORE_LIST}[if scratch rel_next]{NEXT_LINK}[/if]</ul>
+[/more-list]
+[/tmp]
+
+[seti results_return_to][history-scan exclude=nothing count=0][/seti]
+[set munge_quantity]
+[calc]
+        $Scratch->{did_order} = 1;
+        @q = split /\0/, $CGI->{mv_order_quantity};
+        for (@q) {
+                next unless length $_;
+                $_ = "=$_";
+        }
+        @parms = grep /^mv_oi\d+/ && $CGI->{$_}, keys %{$CGI};
+
+        # If we have parms, means an individual buy. If we don't
+        # we want to strip empty items
+        unless (@parms) {
+                @i = split "\0", $CGI->{mv_order_item};
+                for(my $i = 0; $i < @i; $i++) {
+                        next if length($q[$i]);
+                        $i[$i] = '';
+                }
+                @i = grep length($_), @i;
+                @q = grep length($_), @q;
+                $CGI_array->{mv_order_quantity} = \@q;
+                $CGI->{mv_order_quantity} = join "\0", @q;
+                $CGI_array->{mv_order_item} = \@i;
+                $CGI->{mv_order_item} = join "\0", @i;
+                return;
+        }
+        my $item = $parms[0];
+        $item =~ /(\d+)/ or return;
+        my $idx = $1;
+		$idx -= $CGI->{first_match};
+        $idx--;
+        $CGI->{mv_order_item} = $CGI->{$item};
+        $CGI->{mv_order_quantity} = "$q[$idx]";
+        return;
+[/calc]
+        [bounce href="[scratch results_return_to]"]
+[/set]
+
+[on-match]
+<FORM ACTION="[area nothing]" METHOD=POST class="form-horizontal">
+[form-session-id]
+<INPUT TYPE=hidden NAME=mv_action VALUE=refresh>
+<INPUT TYPE=hidden NAME=mv_separate_items VALUE=0>
+<INPUT TYPE=hidden NAME=mv_click VALUE=munge_quantity>
+<INPUT TYPE=hidden NAME=first_match VALUE="[value mv_first_match]">
+
+<table class="table">
+	<thead>
+		<tr> 
+		  <th style="width:30%">[L]Product[/L]</th>
+		  <th class="txtc">[L]SKU[/L]  </th>
+		  <th class="txtc">[L]Stock[/L]</th>
+		  <th class="txtc">[L]Price[/L]</th>
+		  <th class="txtc" style="width:20%">[L]Qty[/L]  </th>
+		  <th class="txtc">[L]Buy[/L]  </th>
+		</tr>
+	</thead>
+[/on-match]
+
+[search-list]
+
+	[item-change 1][condition][item-field category][/condition]
+
+	[if-item-field category]
+	<tr class="title"> 
+	  <td colspan="6" class="text-info"><br><b>[either][value banner_text][or][item-field category][/either]</b></td>
+	</tr>
+	[/if-item-field]
+
+	[/item-change 1]
+
+	<tr valign="middle"> 
+		  <td>
+			<INPUT TYPE=hidden  NAME="mv_order_item"  VALUE="[item-code]">
+			<a href="[area [item-code]]" class="resultslink">[item-description]</a>
+		  </td>
+		  <td class="txtc">[item-code]</td>
+		  <td class="txtc">
+			[item-calc]
+			my $q = q{[item-data inventory quantity]};
+			if($q > 0) {
+					return <<EOF;
+	<font __FFACE__ size="1" color="#008000"><b>[L]Yes[/L]</b></font>
+EOF
+			}
+			else {
+					return <<EOF;
+	<a href="[area function/stock_alert [item-code]]" class="resultslink"><b>[L]No[/L]</b></a>
+EOF
+			}
+			[/item-calc]
+		  </td>
+		  <td class="txtc">[item-price]</td>
+		  <td class="txtc">
+		  	<input type=hidden name="mv_oi[item-increment]" value="">
+				<input type=text name=mv_order_quantity value="" class="form-control">
+		  </td>
+		  <td class="txtc">
+					<button type=submit onClick="this.form.mv_oi[item-increment].value='[item-code]'" class="btn btn-buy">[L]BUY NOW[/L]</button>
+		  </td>
+	</tr>
+
+[/search-list]
+
+[on-match]
+</table>
+
+	<br>
+	<button TYPE=submit class="btn btn-info pull-right">[L]Buy List[/L]</button>
+</FORM>
+[/on-match]
+
+[no-match]
+<div>
+	[tmp matchstring][value-extended name=mv_searchspec joiner=" | " filter=encode_entities][/tmp]
+	[if scratch matchstring]
+	[msg arg.0="[scratch matchstring]"]Sorry, no matches for <B>%s</B>.[/msg]
+	[/if]
+	[if value mv_search_error]
+	<B>
+	[L]Errors[/L]:
+	<BR> 
+	[value-extended name=mv_search_error joiner="<BR>" filter=encode_entities]
+	</B>
+	[/if]
+</div>
+[/no-match]
+
+	[if values more_link]
+	[scratch bw_more]
+	[else]
+	[more-list]
+		[link-template]<li class="$CLASS$ other"><a href="$URL$">$ANCHOR$</a></li>[/link-template]
+		<ul class="pagination pagination-centered">{PREV_LINK}{MORE_LIST}{NEXT_LINK}</ul>
+	[/more-list]
+	[/else]
+	[/if]
+
+
+[/search-region]
+</div>
+
+[search-region]
+
+[on-match]
+[tmp meta_header]
+[calcn]
+	return unless $Values->{more_link};
+	(my $more_page = $Session->{last_url}) =~ s|^/.*/(.*)(\.html)?|$1|;
+
+	## $mc set above.
+	my ($ml, $fm) = ( $Values->{mv_matchlimit}, $Values->{mv_first_match} );
+	my ($canon, $rel_prev, $rel_next);
+#Debug("more_page=$more_page, ml=$ml, fm=$fm, mc=$mc");
+
+	my ($prev, $next);
+	REL: {
+		last REL if $mc < $ml;
+		if($fm == 0) {  # first page
+			$rel_next = $Values->{more_link} . '/2';
+		}
+		elsif( ($mc - $fm - $ml) <= 0 ) {  # last page
+			$prev = (($fm+$ml) / $ml) - 1;
+			$rel_prev = $Values->{more_link} . '/' . ($prev ? $prev : '1');
+		}
+		else {  # page 2 to second-to-last
+			$prev = sprintf("%.0f", ($fm / $ml));
+			$next = $prev + 2;
+			$rel_prev = $Values->{more_link} . "/$prev";
+			$rel_next = $Values->{more_link} . "/$next";
+		}
+	}
+	CANON: {
+		last CANON if $more_page !~ /^1|(Next)|(Prev)/;
+		if($more_page == 1) {
+			$canon = '';
+		}
+		else {
+			$canon = ($fm+$ml) / $ml;
+			$canon = '' if $canon == 1;
+		}
+		$canon = $Values->{more_link} . ($canon ? "/$canon" : '');
+	}
+	my @out;
+	my $url = $Variable->{SAMPLEURL} . $Variable->{CGI_URL};
+	my $ext = $Scratch->{mv_add_dot_html} ? '.html' : '';
+	$url !~ /\/$/ ? $url .= '/' : '';
+	push @out, qq{<link rel="prev" href="$url$rel_prev$ext">} if $rel_prev;
+	push @out, qq{<link rel="next" href="$url$rel_next$ext">} if $rel_next;
+	$Tag->tmp('rel_next', 1) if $rel_next;
+	push @out, qq{<link rel="canonical" href="$url$canon$ext">} if $canon;
+	if ($prev || $next) { $Scratch->{page_title} = $Scratch->{page_title} . ' - Page ' . (($prev || $next)+1) };
+	return "\t" . join "\n\t", @out;
+[/calcn]
+[/tmp]
+<h2>[either][value name=more_link filter=uri2string keep=1][or]Search Results[/either]</h2>
+[/on-match]
+
+[tmp bw_more]
+[more-list]
+[first-anchor][/first-anchor][last-anchor][/last-anchor]
+[link-template]<li><a href="[area href=|[value more_link]/$ANCHOR$|]">$ANCHOR$</a></li>[/link-template]
+<div class="pagination pagination-centered">
+	<ul>{PREV_LINK}{MORE_LIST}[if scratch rel_next]{NEXT_LINK}[/if]</ul>
+</div>
+[/more-list]
+[/tmp]
+[calc]
+	my $more = $Scratch->{bw_more};
+	$more =~ s,<strong>,<li class="active"><a href="#">,;
+	$more =~ s,</strong> *,</a></li>,g;
+	$Scratch->{bw_more} = $more;
+	return $Values->{more_link} ? $more : undef;
+[/calc]
+
+[search-list]
+
+	[item-change 1][condition][item-field category][/condition]
+	[item-alternate except_first]</ul>[/item-alternate]
+		[if-item-field category]
+			<h3>[either][value banner_text][or][item-field category][/either]</h3>
+		[/if-item-field]
+	<ul class="thumbnails">
+	[/item-change 1]
+
+	<li class="span3">
+		<div class="thumbnail">
+			<a href="[area [item-code]]">[image sku="[item-code]" default="../thumb.gif" imagesubdir=items makesize="120x150>"]<br>[item-description]</a>
+			<br>[item-price]
+		</div>
+	</li>
+
+[/search-list]
+
+[on-match]
+	</ul>
+[/on-match]
+
+[no-match]
+<div>
+	[comment]
+			Don't show the search string if it was empty, since it looks weird
+			and the user will see the error below anyway.
+	[/comment]
+	[tmp matchstring][value-extended name=mv_searchspec joiner=" | " filter=encode_entities][/tmp]
+	[if scratch matchstring]
+	[msg arg.0="[scratch matchstring]"]Sorry, no matches for <B>%s</B>.[/msg]
+	[/if]
+	[if value mv_search_error]
+	<B>
+	[L]Errors[/L]:
+	<BR> 
+	[value-extended name=mv_search_error joiner="<BR>" filter=encode_entities]
+	</B>
+	[/if]
+</div>
+[/no-match]
+
+[if value more_link]
+	[scratch bw_more]
+[else]
+	[more-list]
+	<div class=morelist>
+	   [msg arg.0="[matches]" arg.1="[match-count]"]Matches %s of %s found.[/msg]
+	   [link-template]<a href="$URL$" target="_top" class="morelink">$ANCHOR$</a>[/link-template]
+	   <BR>[more]<BR>
+	</div>
+	[/more-list]
+[/else]
+[/if]
+
+
+[/search-region]
+
+<!-- END CONTENT -->
+@_BOTTOM_@

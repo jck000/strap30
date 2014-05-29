@@ -1,0 +1,346 @@
+<h1>__COMPANY__ Receipt</h1>
+<TABLE class="rp_table">
+	<tr>
+		<th>
+		ORDER NUMBER
+		</th>
+		<td>
+		[value mv_order_number]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Order Date
+		</th>
+		<td>
+		[time]%B %d, %Y[/time]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Name
+		</th>
+		<td>
+		[value fname] [value lname]
+		</td>
+	</tr>
+	[if value company]
+	<tr>
+		<th>
+			Company
+		</th>
+		<td>
+		[value company]
+		</td>
+	</tr>
+	[/if]
+	<tr>
+		<th>
+			Email Address
+		</th>
+		<td>
+		[value email]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Address
+		</th>
+		<td>
+		[value address1]
+		</td>
+	</tr>
+	[if value address2]
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+		<td>
+		[value address2]
+		</td>
+	</tr>
+	[/if]
+	<tr>
+		<th>
+			City, State, Zip
+		</th>
+		<td>
+		[value city], [value state]  [value zip]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Country
+		</th>
+		<td>
+		[value country]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Payment Method
+		</th>
+		<td>
+		[value mv_payment]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Shipping Method
+		</th>
+		<td>
+		[shipping_desc]
+		</td>
+	</tr>
+	[if value mv_handling]
+	<tr>
+		<th>
+			Handling Charge
+		</th>
+		<td>
+		[loop list="[value mv_handling]"]
+		[loop-change 1]
+			[condition]1[/condition]
+			[else]<BR>[/else]
+		[/loop-change 1]
+		[either][shipping_desc mode="[loop-code]"][or]CHARGED[/either]
+		[/loop]
+		</td>
+	</tr>
+	[/if]
+	[if value phone_day]
+	<tr>
+		<th>
+			Daytime Phone
+		</th>
+		<td>
+		[value phone_day]
+		</td>
+	</tr>
+	[/if]
+	[if value phone_night]
+	<tr>
+		<th>
+			Evening Phone
+		</th>
+		<td>
+		[value phone_night]
+		</td>
+	</tr>
+	[/if]
+	[if !value mv_same_billing]
+	<tr>
+		<th>
+			Billing Name
+		</th>
+		<td>
+		[value b_fname] [value b_lname]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Billing Address
+		</th>
+		<td>
+		[value b_address1]
+		</td>
+	</tr>
+	[if value b_address2]
+	<tr>
+		<th>
+			&nbsp;
+		</th>
+		<td>
+		[value b_address2]
+		</td>
+	</tr>
+	[/if]
+	<tr>
+		<th>
+			City, State, Zip
+		</th>
+		<td>
+		[value b_city], [value b_state]  [value b_zip]
+		</td>
+	</tr>
+	<tr>
+		<th>
+			Billing Country
+		</th>
+		<td>
+		[value b_country]
+		</td>
+	</tr>
+	[/if]
+</TABLE>
+	[comment] Handle downloadables [/comment]
+	[perl products]
+		sub get_download {
+			if (! $Scratch->{download_present}) {
+				return '(<B>Must pay by credit card to download now.)</B>';
+			}
+			my $sku = shift;
+			return '' unless tag_data('products', 'download', $sku);
+			my $loc =  tag_data('products', 'dl_location', $sku);
+			my $save = delete $Scratch->{mv_add_dot_html};
+			my $url = $Tag->area( {
+							href => "deliver/$loc",
+							no_session_id => 1,
+							no_count => 1,
+							arg => $sku,
+							form => $Scratch->{mv_autocreate},
+						} ); 
+			$Scratch->{mv_add_dot_html} = $save if $save;
+			return qq{<P><BR><A HREF="$url"><IMG border=0 SRC="download.png"></A></P>};
+		}
+		return;
+	[/perl]
+<hr>
+<TABLE class="rp_items">
+	<TH class=qty>[L]Qty[/L]</TH>
+	<TH class=item_l>[L]Item No.[/L]</TH>
+	<TH class=desc>[L]Description[/L]</TH>	
+	<TH class=price>[L]Price[/L]</TH>	
+	<TH class=ext>[L]Extension[/L]</TH>	
+	[item-list modular=1]
+	<tr>
+		<td class=qty>
+		[item-quantity]
+		</td>
+		<td class=item>
+			[item-sku]
+		</td>
+		<td class=desc>
+		[item-data products description]
+		[if-modifier size]<BR>SIZE-->[item-modifier size][/if-modifier][if-modifier color] COLOR-->[item-modifier color][/if-modifier]
+		[if-item-field option_type]
+				[table-organize cols=4 table=' ' font="size=1" pretty=1]
+					[item-options td=1 label=1 bold=1 price=1 type=display]
+				[/table-organize]
+		[/if-item-field]
+
+		[if-item-param pay_cert_code]
+			[tmp gc_url][area href="pay_cert/redeem"
+							  no_session_id=1
+							  no_count=1
+							  form="
+								pay_cert_code=[item-param pay_cert_code]
+								pay_cert_check=[item-param pay_cert_check]
+							  "][/tmp]
+			<br>Give this URL to pass on the gift certificate:
+					<A href="[scratch gc_url]">[scratch gc_url]</A>
+		[/if-item-param]
+
+		[if-item-field download]
+			<br>[calc]get_download('[item-code]')[/calc]
+		[/if-item-field]
+		[if-item-modifier mv_ad]
+		<BR>
+		<tt><b>SHIP TO:</B></tt>
+		<PRE>[item-modifier mv_ad]</pre>
+		[/if-item-modifier]
+		</td>
+		<td class=price>
+			[item-discount-price]
+		</td>
+		<td class=ext>
+			[item-discount-subtotal]
+		</td>
+	[/item-list]
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			SUBTOTAL
+		</td>
+		<td class=ext>
+			[subtotal]
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			SALES TAX
+		</td>
+		<td class=ext>
+			[salestax]
+		</td>
+	</tr>
+	[if value mv_shipmode]
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			SHIPPING
+		</td>
+		<td class=ext>
+			[shipping]
+		</td>
+	</tr>
+	[/if]
+	[if value mv_handling]
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			HANDLING
+		</td>
+		<td class=ext>
+			[handling]
+		</td>
+	</tr>
+	[/if]
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			ORDER TOTAL
+		</td>
+		<td class=ext>
+			[total-cost]
+		</td>
+	</tr>
+	[if scratch pay_cert_total]
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			GIFT CERTIFICATE
+		</td>
+		<td class=ext>
+			[currency][scratch pay_cert_total][/currency]
+		</td>
+	</tr>
+	<tr>
+		<td colspan=3>
+			&nbsp;
+		</td>
+		<td>
+			CHARGED
+		</td>
+		<td class=ext>
+			[currency][scratch tmp_remaining][/currency]
+		</td>
+	</tr>
+	[/if]
+	[if value gift_note]
+	<tr>
+		<td colspan=2>
+		<B>Comments/Note for Gift:</B>
+		</td>
+		<td colspan=3>
+		<PRE>
+		[value gift_note]
+		</PRE>
+		</td>
+	</tr>
+	[/if]
+</table>
+

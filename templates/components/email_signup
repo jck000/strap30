@@ -1,0 +1,42 @@
+[comment]
+ui_name: email_signup
+ui_type: component
+ui_class: content, vertical
+ui_group: promotion
+ui_label: Email Signup
+
+
+[/comment]
+<!-- BEGIN COMPONENT [control component email_signup] -->
+<div class="[control class row]">
+		<h3>&nbsp;&nbsp;[control name=banner default="[L]Email Signup[/L]"]</h3>
+	[if errors email]
+		<div style="text-align:center;font-weight:bold;color:red;margin:1em 0 0">[L]Please enter a valid email address.[/L]</div>
+	[/if]
+	<div class=well>
+		[comment] ## check_email profile in etc/profiles.misc ## [/comment]
+		[set subscribe_user]
+			[tmp mc_stat][mailchimp method=listSubscribe id="db10615c3d" email_address="[value email]"][/tmp]
+			[if scratch mc_stat]
+				[cgi name=mv_nextpage set="query/email_sub_thanks" hide=1]
+			[else]
+				[error name=subscribe set="There was a problem subscribing you."]
+			[/else]
+			[/if]
+		[/set]
+		<form action="[area href=@@MV_PAGE@@]" method="post" id=chf_form >
+		[form-session-id]
+		<input type=hidden name=nxb             value=1>
+		<input type=hidden name=mv_action       value=return>
+		<input type=hidden name=mv_form_profile value=check_email>
+		<input type=hidden name=mv_click        value=subscribe_user>
+
+		<input type=text id="chf_fname" name="fname" value="[value fname]" placeholder="First Name" class="form-control">
+		<input type=text id="chf_lname" name="lname" value="[value lname]" placeholder="Last Name" class="form-control">
+		<input type=text id="chf_email" name="email" value="[value email]"  style="[if errors email]color:red[/if]" placeholder="Email address" class="form-control">
+		<input type=text id="chf_cell" name="cell" value="[value cell]" placeholder="Cell (optional for sms notify)" class="form-control">
+		<input type=submit id="chf_submit" title="Click here to Subscribe" value="Subscribe" class="btn btn-info">
+		</form>
+	</div>
+</div>
+<!-- END COMPONENT [control component email_signup] -->
