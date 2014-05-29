@@ -12,7 +12,7 @@ CITY	Anywhere, OH 45056	Company
 COD_ACCEPTED	0	Payment
 COMPANY	__MVC_COMPANY__	Company
 CREDIT_CARDS_ACCEPTED	visa mc amex discover  	Payment
-CSS_DIR	__MVC_SAMPLEHTML__/css	Template
+CSS_DIR	__MVC_WWWDIR__/css	Template
 DECREMENT_INVENTORY	1	Order
 DEFAULT_COUNTRY	US	Shipping
 DEFAULT_LOCALE	en_US	Internationalization
@@ -32,7 +32,7 @@ GOOGLE_ANL_ID		Google
 IC_DIR	__MVC_VENDROOT__	Admin Control
 IMAGE_DIR	__MVC_IMAGEURL__	Directories and Paths
 JQUERY_LATEST	//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js	Admin Control
-JS_DIR	__MVC_SAMPLEHTML__/js	Template
+JS_DIR	__MVC_WWWDIR__/js	Template
 LINKHOST	__MVC_LINKHOST__	Admin Control
 LINKMODE	__MVC_LINKMODE__	Admin Control
 LINKPORT	__MVC_LINKPORT__	Admin Control

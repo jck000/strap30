@@ -21,7 +21,7 @@ if test -d $CGIDIR
 then
 	HASCGIDIR=1
 else 
-$die
+	die "Don't have cgidir $CGIDIR: $!"
 fi
 
 for f 
