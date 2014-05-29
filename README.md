@@ -36,7 +36,7 @@ Usage:
 Clone the repository (or download the ZIP file and extract) to your
 Interchange directory (e.g. /usr/local/interchange). From there, run:
 
-	bin/makecat --demotype=strap [your-catalog-name]
+	bin/makecat --demotype=strap30 [your-catalog-name]
 
         (If you cloned the repository, you should manually remove the
         .git directory from your catalog root, after installation.)

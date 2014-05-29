@@ -1,7 +1,9 @@
-sh /home/greg/catalogs/bw/config/makedirs
+sh __MVC_RELOCATE____MVC_CATROOT__/config/makedirs
 We need to make some directories to store sessions, logs, and such.
 
-sh /home/greg/catalogs/bw/config/add_global_usertag
+sh __MVC_RELOCATE____MVC_CATROOT__/config/add_global_usertag
 This catalog requires some global usertags not available in the
 standard distribution.
 
+sh __MVC_RELOCATE____MVC_CATROOT__/config/addcgi
+We need to add external cgi programs to cgi directory

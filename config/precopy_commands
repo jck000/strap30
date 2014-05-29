@@ -1,11 +1,11 @@
-{MYSQLCREATE}mysqladmin  create test_bw
+{MYSQLCREATE}mysqladmin __MVC_MYSQLCREATEOPT__ create __MVC_SQLDB__
 Since you selected the MySQL option, you need to create a database named
-"test_bw". In a default MySQL configuration, any user may create
+"__MVC_SQLDB__". In a default MySQL configuration, any user may create
 and drop and modify test_* databases, but some administrators disable this.
   
 
-{PGSQL}createdb test_bw
+{PGSQL}createdb __MVC_SQLDB__
 Since you selected the PostgreSQL option, you need to create a database named
-"test_bw". This will only work if your administrator allowed it.
+"__MVC_SQLDB__". This will only work if your administrator allowed it.
 
 
