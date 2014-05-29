@@ -1,0 +1,36 @@
+#!/bin/sh
+
+CONFDIR=__MVC_RELOCATE____MVC_CATROOT__/config/cgi
+CGIDIR=__MVC_CGIDIR__
+
+die() {
+	echo $1
+	exit 1
+}
+
+cd $CONFDIR || die "Cannot find $CONFDIR to change to.";
+
+if [ "x`whoami`" = xroot ]
+then
+	ISROOT=1
+else
+	ISROOT=0
+fi
+
+if test -d $CGIDIR
+then
+	HASCGIDIR=1
+else 
+$die
+fi
+
+for f 
+do
+	if test -f $CGIDIR/$f
+	then
+		echo "$f appears to be in cgi directory, skipping."
+	else
+		cp $f $CGIDIR || die "Cannot copy $f to $CGIDIR: $!"
+	fi
+done
+

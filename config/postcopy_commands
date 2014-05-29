@@ -5,3 +5,5 @@ sh __MVC_RELOCATE____MVC_CATROOT__/config/add_global_usertag
 This catalog requires some global usertags not available in the
 standard distribution.
 
+sh __MVC_RELOCATE____MVC_CATROOT__/config/addcgi
+We need to copy any external cgi programs to cgi dir
