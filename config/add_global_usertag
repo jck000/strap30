@@ -1,7 +1,7 @@
 #!/bin/sh
 
-CONFDIR=__MVC_RELOCATE____MVC_CATROOT__/config
-TAGDIR=__MVC_RELOCATE____MVC_VENDROOT__/code/template_tag/__MVC_DEMOTYPE__
+CONFDIR=/home/greg/catalogs/bw/config
+TAGDIR=/home/greg/ic57/code/template_tag/standard
 
 die() {
 	echo $1
@@ -21,25 +21,15 @@ if test -d $TAGDIR
 then
 	HASTAGDIR=1
 else 
-	mkdir -p __MVC_RELOCATE____MVC_VENDROOT__/code/template_tag/__MVC_DEMOTYPE__ \
+	mkdir -p /home/greg/ic57/code/template_tag/standard \
 		|| die "Cannot make $TAGDIR"
 fi
 
-for f in *.tag *.am
+for f in *.tag
 do
-	if test -f __MVC_RELOCATE____MVC_VENDROOT__/usertag/$f
+	if test -f /home/greg/ic57/usertag/$f
 	then
 		echo "$f appears to be in global usertag/ directory, skipping."
-	else
-		cp $f $TAGDIR || die "Cannot copy $f to $TAGDIR: $!"
-	fi
-done
-
-for f in *.filter
-do
-	if test -f __MVC_RELOCATE____MVC_VENDROOT__/filter/$f
-	then
-		echo "$f appears to be in global filter/ directory, skipping."
 	else
 		cp $f $TAGDIR || die "Cannot copy $f to $TAGDIR: $!"
 	fi

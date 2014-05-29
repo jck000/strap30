@@ -27,6 +27,7 @@ random:
 
 [/comment]
 <!-- BEGIN COMPONENT [control component upsell] -->
+<div class="[control class row]">
 
 [if scratch upsell]
 
@@ -89,5 +90,5 @@ random:
 </tr>
 </table>
 [/if]
-
+</div>
 <!-- END COMPONENT [control component upsell] -->

@@ -2,7 +2,7 @@ COMPANY
 Your company name
 Standard Store
 
-WWWDIR
+WWW_DIR
 Your catalog www directory relative to doc root
 /__MVC_CATALOGNAME__
 
@@ -12,43 +12,43 @@ Set to 1 if you want to use MySQL
 
 {MYSQL}SQLDB
 Database to use (will be created)
-test___MVC_CATALOGNAME__	interch
+test_bw	interch
 
 {MYSQL}SQLDSN
 DBI DSN to use
-dbi:mysql:__MVC_SQLDB__
+dbi:mysql:test_bw
 
 {MYSQL}SQLUSER
 Username for MySQL (if any)
-	__MVC_CATUSER__	interch
+	greg	interch
 
 {MYSQL}SQLPASS
 Password for MySQL (if any)
 	pass
 
 {MYSQL}MYSQLCREATE
-Set to 1 to create '__MVC_SQLDB__' with mysqladmin
+Set to 1 to create 'test_bw' with mysqladmin
 1	0
 
 {MYSQLCREATE}MYSQLCREATEOPT
 Extra options for creation
 	-p	-u root -p
 
-{MAILORDERTO and ! '__MVC_MYSQL__'}PGSQL
+{MAILORDERTO and ! '1'}PGSQL
 Set to 1 if you want to use PostgreSQL
 	1	0
 
 {PGSQL}SQLDB
 Database to use (will be created)
-__MVC_CATALOGNAME__	interch
+bw	interch
 
 {PGSQL}SQLDSN
 DBI DSN to use
-dbi:Pg:dbname=__MVC_SQLDB__
+dbi:Pg:dbname=test_bw
 
 {PGSQL}SQLUSER
 Username for PostgreSQL (if any)
-	__MVC_CATUSER__	interch
+	greg	interch
 
 {PGSQL}SQLPASS
 Password for PostgreSQL (if any)
@@ -60,7 +60,7 @@ Timestamp for PostgreSQL (if any)
 
 SUPERUSER
 Account name that will control this catalog
-__MVC_CATUSER__	interchange	admin	interch
+greg	interchange	admin	interch
 
 CRYPTPW
 Administrative password

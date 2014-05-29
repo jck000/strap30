@@ -28,6 +28,7 @@ banner:
 
 [/comment]
 <!-- BEGIN COMPONENT [control component promo] -->
+<div class="[control class row]">
 
 <table class="well table table-condensed table-bordered">
 	<caption> 
@@ -41,10 +42,11 @@ banner:
 				WHERE featured = '[control promo_type specials]'
 				and (timed_promotion <> 1 or 
 				(timed_promotion = 1 and start_date < "[scratch now]" and finish_date > "[scratch now]"))
+				limit [control matches 4]
 				|]
 			[table-organize embed=1 pretty=1 cols="[control cols 4]"]
 		[list]
-			<TD class="txtc" style="position:relative">
+			<TD class="text-center" style="position:relative">
 				  [if-sql-param blurb_begin]
 					[sql-param blurb_begin]
 				  [else]
@@ -70,4 +72,5 @@ banner:
 		[/table-organize]
 </table>
 [/query]
+</div>
 <!-- END COMPONENT [control component promo] -->

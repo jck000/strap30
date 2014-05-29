@@ -10,6 +10,7 @@ ui_template_name: leftonly
 
 [tmp page_title]__COMPANY__ -- [L]Privacy Policy[/L][/tmp]
 [tmpn members_only][/tmpn]
+[tmpn display_class]leftonly[/tmpn]
 
 [control reset=1]
 [control-set]
@@ -19,47 +20,52 @@ ui_template_name: leftonly
 	[component]cart_tiny[/component]
 [/control-set]
 [control-set]
-	[component]category_vert_toggle[/component]
-	[imagedirpath][/imagedirpath]
-	[imagedirurl][/imagedirurl]
-	[page_class]all[/page_class]
-	[set_selector]left[/set_selector]
-	[timed]0[/timed]
-	[toggleswitchoff][/toggleswitchoff]
-	[toggleswitchon][/toggleswitchon]
+	[component]product_tree[/component]
+	[show_categories]1[/show_categories]
+	[output]left[/output]
 [/control-set]
 [control-set]
 	[component][/component]
 [/control-set]
 [control-set]
 	[component]random[/component]
-	[banner][L]See...[/L][/banner]
+	[banner][L]Trust Us![/L][/banner]
 	[cols]2[/cols]
 	[size]2[/size]
+	[class]col-sm-12[/class]
+	[output]bottom[/output]
 [/control-set]
 [control reset=1]
 
 @_TOP_@
 <!-- BEGIN CONTENT -->
-<blockquote>
-<p>&nbsp;</p>
-<p>[L]We don't give out your information to anyone![/L]</p>
-<p>[L]We can be contacted at[/L]:</p>
-<p>
-__COMPANY__<br>
-__ADDRESS__<br>
-__CITY__<br>
-[if variable PHONE]
-[L]Phone[/L]: __PHONE__<br>
-[/if]
-[if variable FAX]
-[L]Fax[/L]: __FAX__<br>
-[/if]
-[if variable TOLLFREE]
-[L]Toll free[/L]: __TOLLFREE__<br>
-[/if]
-<a href="mailto:__EMAIL_INFO__">__EMAIL_INFO__</a>
-</p>
-</blockquote>
+<div class="col-sm-12">
+	<h2>Privacy Policy</h2>
+	<h3>[L]We don't give out your information to anyone![/L]</h3>
+	<blockquote>
+	<p>&nbsp;</p>
+	<em>[L]We can be contacted at[/L]:</em>
+	<p>&nbsp;</p>
+	<p>
+	__COMPANY__<br>
+	__ADDRESS__<br>
+	__CITY__<br>
+	[if variable PHONE]
+	<br>
+	[L]Phone[/L]: __PHONE__<br>
+	[/if]
+	[if variable FAX]
+	<br>
+	[L]Fax[/L]: __FAX__<br>
+	[/if]
+	[if variable TOLLFREE]
+	<br>
+	[L]Toll free[/L]: __TOLLFREE__<br>
+	<br>
+	[/if]
+	<a href="mailto:__EMAIL_INFO__">__EMAIL_INFO__</a>
+	</p>
+	</blockquote>
+</div>
 <!-- END CONTENT -->
 @_BOTTOM_@

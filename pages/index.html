@@ -1,10 +1,15 @@
 [tmp page_title]__COMPANY__ -- [L]Welcome[/L][/tmp]
 [tmp display_class][either][cgi template][or]leftright[/either][/tmp]
+[tmp jquery_after]
+			//example of how to load additional js scripts
+			getScript('__JS_DIR__/jquery.PrintArea.js',function(){
+				$(document).ready(function() {
+					//put code reliant on above script here
+				});
+			});
+[/tmp]
 
 [control reset=1]
-[control-set]
-	[component]search_box_small[/component]
-[/control-set]
 [control-set]
 	[component]cart_tiny[/component]
 	[output]right[/output]
@@ -16,6 +21,7 @@
 [/control-set]
 [control-set]
 	[component]cross[/component]
+	[class]col-sm-12[/class]
 	[buttons]1[/buttons]
 	[cols]4[/cols]
 	[random]1[/random]
@@ -59,6 +65,14 @@
 
 @_TOP_@
 <!-- BEGIN CONTENT -->
+<div class="col-sm-12">
+[tmp jquery_inpage]
+[scratch jquery_inpage]
+	$(document).ready( function (){
+		//alert("Test in page js");
+	});
+[/tmp]
+[calc]Log("test logging");Debug("test debug");[/calc]
 
 [loop list="[scratch pay_cert_code]"]
 	<p class="alert alert-success">You have a[loop-alternate except_first]nother[/loop-alternate] gift certificate for [currency][loop-data pay_certs amount][/currency]!</p>
@@ -66,6 +80,7 @@
 
 	[L INDEX_PAR1]
 		<h1>Welcome to the Interchange Strap Store!</h1>
+		<h2>Now utilizing Bootstrap 3.1.1 !</h2>
 		<p>This site is intended to get you started building
 		your own e-business site. Replace the stock graphics, products, 
 		and categories in this store to begin building your custom site.</p>
@@ -86,6 +101,6 @@
 [if var MV_DEMO_MODE]
 		<p>[L]Generate test order to fill the sample order database[/L]: <a href="[area test_order]">[L]Do test order[/L]</a>.</p>
 [/if]
-
+</div>
 <!-- END CONTENT -->
 @_BOTTOM_@

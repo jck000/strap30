@@ -36,6 +36,7 @@ cols:
 	default: 2
 
 [/comment]
+<div class="[control class row]">
     <div class="specials_title">
     <b>[control name=banner default="[L]Best sellers...[/L]"]</b>
     </div>
@@ -66,8 +67,8 @@ cols:
        			[L]Our Price[/L]: <B>[loop-price]</B><br>
 
 				<br>
-				[b-link order mv_order_item=[loop-code]][L]BUY NOW[/L][/b-link]
-				[b-link [loop-code]][L]More Info[/L][/b-link]
+				[b-link page=order form=|mv_order_item=[loop-code]| class="btn btn-sm btn-buy"]BUY NOW[/b-link]
+				[b-link page=|[loop-code]| class="btn btn-sm btn-info"][L]MORE INFO[/L][/b-link]
 
 			</td>		
 		</tr>
@@ -78,5 +79,6 @@ cols:
     </table>
     </div>
     <p>&nbsp;</p>
+    </div>
 
 <!-- END COMPONENT [control component best_horizontal] -->

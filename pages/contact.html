@@ -8,6 +8,8 @@
 
 [control-set]
 [component]product_tree[/component]
+[show_categories]1[/show_categories]
+[output]left[/output]
 [/control-set]
 
 [control-set]
@@ -27,6 +29,7 @@
 
 [control-set]
 [component]promo[/component]
+[class]col-sm-12[/class]
 [promo_type]new[/promo_type]
 [matches]3[/matches]
 [cols]3[/cols]
@@ -37,6 +40,7 @@
 
 @_TOP_@
 <!-- BEGIN CONTENT -->
+<div class="col-sm-12">
 
 <h1>[L]Contact Us[/L]</h1>
 
@@ -67,8 +71,11 @@
 
 		<p>[L]If you would like further information on constructing a store like this, please contact Perusion[/L]:</p>
 
-		<p><a href="http://www.perusion.com/">http://www.perusion.com/</a><br>
-		[L]e-mail[/L]: <a href="mailto:sales@perusion.com">sales@perusion.com</a></p>     
-
+		<p><a href="@_INTERCHANGE_URL_@">@_INTERCHANGE_URL_@</a><br>
+		[L]e-mail[/L]: <a href="mailto:@_INTERCHANGE_EMAIL_@">@_INTERCHANGE_EMAIL_@</a><br><br></p>     
+	  </td>
+	</tr>
+</table>
+</div>
 <!-- END CONTENT -->
 @_BOTTOM_@

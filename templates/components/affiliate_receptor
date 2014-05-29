@@ -23,6 +23,7 @@ discount_css:
 
 [/comment]
 <!-- begin component [control component affiliate_receptor] -->
+<div class="[control class row]">
 [if session source]						
 [calc]
 	my $coupon_enable = $CGI->{coupon};
@@ -62,5 +63,5 @@ discount_css:
 [/if]
 
 [/if]
-
+</div>
 <!-- end component [control component affiliate_receptor] -->

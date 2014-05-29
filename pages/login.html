@@ -7,7 +7,7 @@
 		un.value ? document.getElementById('mv_password').focus() : un.focus();
 	}
 	function setElementAvailability(e,v) {
-		document.getElementById(e).disabled = !v;
+		document.getElementById(e).disabled = v;
 	}
 </script>
 [/tmpn]
@@ -15,16 +15,15 @@
 @_TOP_@
 <!-- BEGIN CONTENT -->
 
-<div class="row-fluid">
-<div class="span1">&nbsp;</div>
-<div class="span10">
+<div class="row">
+<div class="col-md-11 col-md-offset-1">
 
 <div class="page-header">
 <h1>[L]Please Log In[/L]</h1>
 </div>
 
-[if session failure]<div class="alert alert-error">[calc] delete $Session->{failure}[/calc]</div>[/if]
-[edisplay show_var=0 class="unstyled alert alert-error"]
+[if session failure]<div class="alert alert-danger">[calc] delete $Session->{failure}[/calc]</div>[/if]
+[edisplay show_var=0 class="unstyled alert alert-danger"]
 
 [set mv_no_cache]1[/set]
 [set [L]New Account[/L]]
@@ -42,47 +41,67 @@ mv_username=email
 [if !session logged_in]
 
 	<form action="[process secure=1]" method="POST" class="form-horizontal">
-	<fieldset>
 		<input type="hidden" name="mv_form_profile" value="emailcheck">
 		<input type="hidden" name="mv_todo"  value="return">
 		<input type="hidden" name="mv_nextpage" value="login">
 		<input type="hidden" name="destination" value="[either][scratch mv_successpage][or][ecgi destination][/either]">
 		[form-session-id]
 
-		<legend style="margin-bottom:0;border:none">[L]What is your email address?[/L]</legend>
-		<div class="control-group">
-			<label for="mv_username" class="control-label">[error filter=e name=mv_username std_label="[L]My email is[/L]"]:</label>
-			<div class="controls">
-				<input type="email" name="mv_username" id="mv_username" value="[scratch cookie_username]" tabindex=1>
-				<div style="margin-top:0.5em" class="muted smaller">[L]Has your email address changed? Login with your old email address, then you can update it from "Your Account."[/L]</div>
+		<h4>[L]What is your email address?[/L]</h4>
+		<div class="form-group">
+			<label for="mv_username" class="control-label col-sm-2">[error filter=e name=mv_username std_label="[L]My email is[/L]"]:</label>
+			<div class="col-sm-4">
+				<input type="email" class="form-control" name="mv_username" id="mv_username" value="[scratch cookie_username]" tabindex=1>
+				<span  class="help-block muted"><small>[L]Has your email address changed? Login with your old email address, then you can update it from "Your Account."[/L]</small></span>
 			</div>
 		</div>
 
-		<legend style="margin-bottom:0;border:none">[L]Do you have a[if type=variable term=COMPANY op="=~" compare="/[aeiou]/i"]n[/if] __COMPANY__ password?[/L]</legend>
-		<div class="control-group">
-				<label for="newcust" class="radio">
-					<input type="radio" name="mv_click" value="New Account" id="newcust" onclick="setElementAvailability('mv_password', false)">
-					[L]No, I am a new customer[/L].
-				</label>
-				<label for="existcust" class="control-label" style="white-space:nowrap">
-					<input type="radio" name="mv_click" value="Login" id="existcust" checked="checked" onclick="setElementAvailability('mv_password', true)">
+		<h4>[L]Do you have a[if type=variable term=COMPANY op="=~" compare="/[aeiou]/i"]n[/if] __COMPANY__ password?[/L]</h4>
+
+		<div class="form-group">
+			<div class="col-sm-11 col-sm-offset-1">
+				<div class="radio">
+					<label>
+						<input type="radio" name="mv_click" value="New Account" id="newcust" onclick="setElementAvailability('mv_password', true)">
+						[L]No, I am a new customer[/L].
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-11 col-sm-offset-1">
+				<div class="radio">
+					<label>
+						<input type="radio" name="mv_click" value="Login" id="existcust" checked="checked" onclick="setElementAvailability('mv_password', false)">
 					[L]Yes, I have a password[/L]:
-				</label>
-			<div class="controls">
-				<input type="password" name="mv_password" id="mv_password" value="" autocomplete="off" tabindex=2>
-				<span class="help-inline"><a href="[area lost_password]">[L]Lost your password?[/L]</a></span>
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="mv_password" class="control-label col-sm-2">Password:</label>
+			<div class="col-sm-4">
+				<input type="password" name="mv_password" id="mv_password" value="" autocomplete="off" tabindex=2 class="form-control">
+				<span class="help-block"><a href="[area lost_password]">[L]Lost your password?[/L]</a></span>
+			</div>
+		</div>
 				[if config CookieLogin]
-					<label for="mv_cookie_password" class="checkbox muted small" style="margin-top:.5em">
+		<div class="form-group">
+			<div class="col-sm-11 col-sm-offset-1">
+				<div class="checkbox">
+					<label>
 						<input type="checkbox" name="mv_cookie_password" id="mv_cookie_password" value="1" checked=checked>
 						[L]Remember me (uncheck if public terminal)[/L]
 					</label>
-				[/if]
+				</div>
 			</div>
 		</div>
-		<div class="form-actions">
+				[/if]
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
 			<input class="btn btn-primary" type="submit" value="[L]Log In[/L]" tabindex=3>
+			</div>
 		</div>
-	</fieldset>
 	</form>
 
 
@@ -93,8 +112,6 @@ mv_username=email
 [/else]
 [/if]
 
-</div>
-<div class="span1">&nbsp;</div>
 </div>
 
 [tmp clear_errors][error all=1 comment="Clear errors"][/tmp]

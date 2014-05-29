@@ -12,17 +12,20 @@
 [/control-set]
 
 [control-set]
-[component]product_tree[/component]
+	[component]product_tree[/component]
+	[show_categories]1[/show_categories]
+	[output]left[/output]
 [/control-set]
 
 [control reset=1]
 
 @_TOP_@
 <!-- BEGIN CONTENT -->
+<div class="col-md-12">
 
 <h1>[L]Customer Service[/L]</h1>
 
-[edisplay show_var=0 show_label=1 class="unstyled alert alert-error"]
+[edisplay show_var=0 show_label=1 class="unstyled alert alert-danger"]
 [wdisplay list_class="unstyled alert alert-success"]
 
     [if cgi mv_successpage]
@@ -45,5 +48,6 @@
 	[/if]
 	</ul>
 
+</div>
 <!-- END CONTENT -->
 @_BOTTOM_@

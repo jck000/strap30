@@ -1,4 +1,11 @@
+[comment]
+ui_template: Yes
+ui_template_name: leftright
+[/comment]
+
 [set page_title]__COMPANY__ -- [L]Advanced Search[/L][/set]
+[set page_banner][L]Advanced Search[/L][/set]
+[set bgcolor]#FFFFFF[/set]
 
 [control reset=1]
 
@@ -11,7 +18,9 @@
 [/control-set]
 
 [control-set]
-[component]product_tree[/component]
+	[component]product_tree[/component]
+	[show_categories]1[/show_categories]
+	[output]left[/output]
 [/control-set]
 
 [control-set]
@@ -19,10 +28,11 @@
 [/control-set]
 
 [control-set]
-[component]cross_horizontal[/component]
+[component]cross[/component]
 [size]2[/size]
 [cols]2[/cols]
 [banner]Specials[/banner]
+[class]col-sm-12[/class]
 [/control-set]
 
 [control-set]
@@ -35,27 +45,25 @@
 [control reset=1]
 
 @_TOP_@
+
 <!-- BEGIN CONTENT -->
+<div class="col-md-12">
 
 [tmp matchlimit]10[/tmp]
 
-<h1>[L]Advanced Search[/L]</h1>
+		<h1>[L]Advanced Search[/L]</h1>
+		<br>
 
-<p>
-<form action="[area search]" method=post>
-<table width="100%">
-	<tr>
-		<td colspan="2">
+		<p>
+		<form action="[area search]" method=post class="form-horizontal" role="form">
 			[form-session-id]
-			<b>[L]Search by Field[/L]:</b><br><br>
-		</td>
-	</tr>
-	<tr>
-		<td width="50%">
-			[L]Search for[/L]
-		</td>
-		<td>
-			<input type=text name=se size=20>
+			<h3>[L]Search by Field[/L]:</h3>
+			<div class="form-group">
+				<label for="searchterm" class="col-sm-4 control-label">Search for</label>
+				<div class="col-sm-8">
+				  <input type="text" class="form-control" name=se id="searchterm" placeholder="Search Term">
+				</div>
+			</div>
 			<input type=hidden name=st value=db>
 			<input type=hidden name=co value=1>		
 			[if module-version Text::Query]
@@ -64,127 +72,114 @@
 			<input type=hidden name=op value=rm>
 			[/else]
 			[/if]
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]In fields[/L]
-			
-		</td>
-		<td>
-			<select name=sf>
-			<option value=":sku:price:comment:description:category:author">--[L]all fields[/L]--
-			[loop
-				acclist=1
-				list="sku=SKU,price=Price"
-			]
-			<option value="[loop-code]">[loop-param label]
-			[/loop]
-			</select>
+			<div class="form-group">
+				<label for="searchfield" class="col-sm-4 control-label">In Fields</label>
+				<div class="col-sm-8">
+					<select class="form-control" name=sf id="searchfield">
+					<option value=":sku:price:comment:description:category:author">--[L]all fields[/L]--
+					[loop
+						acclist=1
+						list="sku=SKU,price=Price"
+					]
+					<option value="[loop-code]">[loop-param label]
+					[/loop]
+					</select>
+				</div>
+			</div>
 			<input type=hidden name=sf value=category>
-			&nbsp;
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]Full words only[/L]
-		</td>
-		<td>
-			[display name=su type=noyes]
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]Case sensitive[/L]
-		</td>
-		<td>
-			[display name=su type=yesno]
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]Regular expression[/L]
-		</td>
-		<td>
-			[display name=su type=yesno] [L](advanced)[/L]
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]Only in category[/L]
-		</td>
-		<td>
-		[tmp cat_widget]
-			[display
-					name=se
-					type=select
-					options="=--[L]all categories[/L]--"
-					lookup_query="select distinct category from products order by category"
-			]
-		[/tmp]
-		[scratch cat_widget]
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><br>
-			<input type=submit value="[L]SEARCH[/L]" class=button3>
-		</td>
-	</tr>
-</table>
-</form>
-</p>
+			<div class="form-group">
+				<label for="subfield" class="col-sm-4 control-label">Full words only</label>
+				<div class="col-sm-8">
+					[display name=su id=subfield type=noyes class="form-control"]
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="case_sens" class="col-sm-4 control-label">Case Sensitive</label>
+				<div class="col-sm-8">
+					[display name=su id=case_sens type=noyes class="form-control"]
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="regex" class="col-sm-4 control-label">Regular Expression</label>
+				<div class="col-sm-8">
+					[display name=su id=regex type=noyes class="form-control"]
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="onlycat" class="col-sm-4 control-label">[L]Only in category[/L]</label>
+				<div class="col-sm-8">
+					[tmp cat_widget]
+						[display
+								name=se
+								type=select
+								options="=--[L]all categories[/L]--"
+								lookup_query="select distinct category from products order by category"
+								class="form-control"
+								id=onlycat
+						]
+					[/tmp]
+					[scratch cat_widget]
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type=submit class="btn btn-info">[L]SEARCH[/L]</button>
+				</div>
+			</div>
+		</form>
+		</p>
 
-<p>
-<table width="100%">
-	<tr>
-		<td colspan="2">
-			<b>[L]Search by Price[/L]:</b><br><br>
-			<form action="[area search]" method=post>
+		<p>
+		<form action="[area search]" method=post class="form-horizontal" role="form">
 			[form-session-id]
-			<input type=hidden name=st value=db>
-			<input type=hidden name=co value=1>
-			<input type=hidden name=sf value=price>
-			<input type=hidden name=sf value=price>
-			<input type=hidden name=sf value=category>
-			<input type=hidden name=nu value=1>
-			<input type=hidden name=nu value=1>
-			<input type=hidden name=nu value=0>
-			<input type=hidden name=op value=ge>
-			<input type=hidden name=op value=le>
-			<input type=hidden name=op value=eq>
-		</td>
-	</tr>
-	<tr>
-		<td width="50%">
-			[L]Minimum Price[/L]
-		</td>
-		<td>
-			<input type=text name=se size=8 maxlength=12>
-		</td>		
-	</tr>
-	<tr>
-		<td>
-			[L]Maximum Price[/L]
-		</td>
-		<td>
-			<input type=text name=se size=8 maxlength=12>
-		</td>
-	</tr>
-	<tr>
-		<td>
-			[L]Only in category[/L]
-		</td>
-		<td>
-			[scratch cat_widget]
-		</td>
-	</tr>
-	<tr>
-		<td colspan="2" align="center"><br>
-			<input type=submit value="[L]SEARCH[/L]" class=button3>
-		</td>
-	</tr>
-</table>
-</form>
+					<input type=hidden name=st value=db>
+					<input type=hidden name=co value=1>
+					<input type=hidden name=sf value=price>
+					<input type=hidden name=sf value=price>
+					<input type=hidden name=sf value=category>
+					<input type=hidden name=nu value=1>
+					<input type=hidden name=nu value=1>
+					<input type=hidden name=nu value=0>
+					<input type=hidden name=op value=ge>
+					<input type=hidden name=op value=le>
+					<input type=hidden name=op value=eq>
+			<h3>[L]Search by Price[/L]:</h3>
+			<div class="form-group">
+				<label for="minprice" class="col-sm-4 control-label">Minimum Price</label>
+				<div class="col-sm-8">
+				  <input type="text" class="form-control" name=se id="minprice" placeholder="Minimum Price">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="maxprice" class="col-sm-4 control-label">Maximum Price</label>
+				<div class="col-sm-8">
+				  <input type="text" class="form-control" name=se id="maxprice" placeholder="Maximum Price">
+				</div>
+			</div>
+			<div class="form-group">
+				<label for="onlycat" class="col-sm-4 control-label">[L]Only in category[/L]</label>
+				<div class="col-sm-8">
+					[tmp cat_widget]
+						[display
+								name=se
+								type=select
+								options="=--[L]all categories[/L]--"
+								lookup_query="select distinct category from products order by category"
+								class="form-control"
+								id=onlycat
+						]
+					[/tmp]
+					[scratch cat_widget]
+				</div>
+			</div>
+			<div class="form-group">
+				<div class="col-sm-8 col-sm-offset-4">
+					<button type=submit class="btn btn-info">[L]SEARCH[/L]</button>
+				</div>
+			</div>
+		</form>
 
+</div>
 <!-- END CONTENT -->
+
 @_BOTTOM_@

@@ -42,6 +42,7 @@ timed:
 [seti dot][control subcategory_dot][/seti]
 
 <!-- BEGIN COMPONENT [control component category_vertical_tree] -->
+<div class="[control class row]">
   <br>
   <table width="90%" align="center">
     <tr><td align="left" valign="top">
@@ -82,4 +83,5 @@ name][/else][/if-item-param]<BR>
     </td></tr>
   </table>
   <br>
+ </div>
 <!-- END COMPONENT [control component category_vertical_tree] -->

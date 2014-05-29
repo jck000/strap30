@@ -7,9 +7,9 @@
 @_TOP_@
 <!-- BEGIN CONTENT -->
 
-<div class="row-fluid">
-<div class="span1">&nbsp;</div>
-<div class="span10">
+<div class="row">
+<div class="col-md-1">&nbsp;</div>
+<div class="col-md-10">
 
 <div class="page-header">
 <h1>[L]Checkout[/L]</h1>
@@ -27,7 +27,7 @@
 	[include include/checkout/tax_popup]
 [/if]
 
-[edisplay show_label=1 show_var=0 class="unstyled alert alert-error" keep=1]
+[edisplay show_label=1 show_var=0 class="unstyled alert alert-danger" keep=1]
 
 <form action="[process secure=1]" method="POST" name=checkout>
 <fieldset class="form-inline">
@@ -51,14 +51,14 @@
 </fieldset>
 <div class="well">
 	<fieldset class="form-inline">
-		<legend><i class="icon-lock" style="margin-top:6px"></i> [L]Payment Information[/L]</legend>
+		<legend><i class="glyphicon glyphglyphicon glyphicon-lock" style="margin-top:6px"></i> [L]Payment Information[/L]</legend>
 		[include include/checkout/payment_select]
 	</fieldset>
 	<fieldset class="form-horizontal">
 		[include include/checkout/payment_info]
 	</fieldset>
 </div>
-	<div style="text-align:center" class="form-actions">
+	<div class="form-actions text-center">
 			[if items]
 			  <input type=submit value="[L]Recalculate[/L]" class="btn">
 			  &nbsp;&nbsp;
@@ -67,7 +67,7 @@
 					  text="[L]Place Order[/L]"
 					  wait-text="-- [L]Wait[/L] --"
 					  form=checkout
-					  class="btn btn-primary btn-large"
+					  class="btn btn-primary btn-lg"
 			  ]
 					  mv_todo=submit
 			  [/button]
@@ -79,7 +79,7 @@
 </form>
 
 </div>
-<div class="span1">&nbsp;</div>
+<div class="col-md-1">&nbsp;</div>
 </div>
 
 [tmp clear_errors][error all=1 comment="Clear errors"][/tmp]

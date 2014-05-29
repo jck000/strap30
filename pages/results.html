@@ -15,6 +15,7 @@
 [/control-set]
 [control-set]
 	[component]product_tree[/component]
+	[show_categories]1[/show_categories]
 	[output]left[/output]
 [/control-set]
 [control-set]
@@ -28,6 +29,7 @@
 
 @_TOP_@
 <!-- BEGIN CONTENT -->
+<div class="col-md-12">
 
 [search-region]
 
@@ -105,24 +107,24 @@
 [search-list]
 
 	[item-change 1][condition][item-field category][/condition]
-	[item-alternate except_first]</ul>[/item-alternate]
+	[item-alternate except_first]</div>[/item-alternate]
 		[if-item-field category]
 			<h3>[either][value banner_text][or][item-field category][/either]</h3>
 		[/if-item-field]
-	<ul class="thumbnails">
+	<div class="row">
 	[/item-change 1]
 
-	<li class="span3">
+	<div class="col-sm-3">
 		<div class="thumbnail">
 			<a href="[area [item-code]]">[image sku="[item-code]" default="../thumb.gif" imagesubdir=items makesize="120x150>"]<br>[item-description]</a>
 			<br>[item-price]
 		</div>
-	</li>
+	</div>
 
 [/search-list]
 
 [on-match]
-	</ul>
+	</div>
 [/on-match]
 
 [no-match]
@@ -161,5 +163,6 @@
 
 [/search-region]
 
+</div>
 <!-- END CONTENT -->
 @_BOTTOM_@

@@ -14,6 +14,8 @@ ui_template_name: leftonly
 
 [control-set]
 [component]product_tree[/component]
+[show_categories]1[/show_categories]
+[output]left[/output]
 [/control-set]
 
 [control reset=1]
@@ -22,7 +24,7 @@ ui_template_name: leftonly
 
 <!-- BEGIN CONTENT -->
 
-<br>
+<div class="col-sm-12">
 
 [query st=db arrayref=orders
 		sql="SELECT
@@ -59,39 +61,40 @@ $form_session_id
 <input type="hidden" name="mv_todo" value="return">
 <input type="hidden" name="mv_nextpage" value="member/returns_processed">
 
-<table cellspacing="0" cellpadding="0" border="1" width="450">
+  <table class="table table-condensed table-striped" style="background:#f5f5f5; border-collapse:separate;">
 EOF
 
 	my $header_template = <<'EOF';
-
+<thead>
 <tr>
-	<td valign="bottom">
+	<th class="bg-primary btl">
 		[L]ORDER ID[/L]
-	</td>
-	<td valign="bottom">
+	</th>
+	<th class="bg-primary">
 		[L]DATE[/L]
-	</td>
-	<td valign="bottom">
+	</th>
+	<th class="bg-primary">
 		[L]TOTAL[/L]
-	</td>
-	<td valign="bottom">
+	</th>
+	<th class="bg-primary btr">
 		[L]STATUS[/L]
-	</td>
+	</th>
 </tr>
+<thead>
 EOF
 
 		my $line_template = <<'EOF';
 <tr>
-	<td valign="top" align="center">
+	<td valign="top" class="text-left">
 		<a href="$detail_url">$order_number</a>
 	</td>
-	<td valign="top">
+	<td>
 		$order_date
 	</td>
-	<td align="right" valign="top">
+	<td class="text-right">
 		$total_cost
 	</td>
-	<td valign="top" align="right">
+	<td  class="text-right">
 		$status
 	</td>
 </tr>
@@ -152,7 +155,7 @@ EOF
 
 [seti export][tag export transactions transactions.txt][/tag][/seti]
 [seti export][tag export orderline orderline.txt][/tag][/seti]
-
+</div>
 <!-- END CONTENT -->
 
 @_BOTTOM_@

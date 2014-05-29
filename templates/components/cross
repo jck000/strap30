@@ -48,11 +48,13 @@ buttons:
 						fi=merchandising
 						sf=cross_category
 						se=[scratch cross_category]
+						ml=[control size 3]
 [else]
 						st=db
 						fi=merchandising
 						sf=featured
 						se=specials
+						ml=[control size 3]
 [/else]
 [/if]
 					"] [loop-code][/loop][/tmp]
@@ -63,37 +65,39 @@ buttons:
 						fi=merchandising
 						ra=yes
 						tf=times_ordered
-						ml=10
+						ml=[control size 3]
 					"] [loop-code][/loop][/tmp]
 [/if]
     [calc]
 		my $rand = q{[control random]};
 		delete $Scratch->{random};
 		if($rand) {
-			$Scratch->{random} = q{[control size 3]};
+			my $size = q{[control size 3]};
+			$Tag->tmp({ name => 'random', body => $size});
 		}
 		return;
-	[/calc]
-	<table class="table table-condensed table-bordered table-striped">
+    [/calc]          
+<div class="[control class row]">
+    <table class="well table table-condensed table-bordered">
 		<caption>
-		[control name=banner default="[L]See also...[/L]"]
+		<h3>[control name=banner default="[L]See also...[/L]"]</h3>
 		</caption>
 		[table-organize embed=1 pretty=1 cols="[control cols 2]"]
 		[loop random="[scratch random]" list="[strip interpolate=1][scratch cross_codes][/strip]"]    
-			<TD class="txtc">
+			<TD class="text-center">
 				<a href="[area [loop-code]]">
 					[loop-description]<br>
 					[if-loop-field thumb][image src="thumb/[loop-field thumb]"]<br>[/if-loop-field]
 				</a>
 				[L]Our Price[/L]: <b>[loop-price]</b>
 				[if control buttons]
-					<div style="margin-top:5px;">
-						<a href="[area order [loop-code]]" class="btn btn-mini btn-buy">[L]Add to Cart[/L]</a>
+					<div class="mt5">
+						<a href="[area order [loop-code]]" class="btn btn-xs btn-primary">[L]Add to Cart[/L]</a>
 					</div>
 				[/if]
 			</TD>
 		[/loop]
 		[/table-organize]
-	</table>
+    </table>
+</div>
 <!-- END COMPONENT [control component cross_horizontal] -->
-	

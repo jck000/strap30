@@ -11,53 +11,60 @@ show_categories:
 
 [/comment]
 <!-- BEGIN COMPONENT [control component product_tree] -->
-
-<ul class="nav nav-pills nav-stacked">
-	<li class="nav-header">Products</li>
-	<li><a href="[area All-Products]">All</a></li>
-
+[tmp jquery_components]
+[scratch jquery_components]
+$('#nav_menu .collapse').on('show.bs.collapse', function () {
+    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-down");
+});
+//The reverse of the above on hidden event:
+$('#nav_menu .collapse').on('hide.bs.collapse', function () {
+    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-right");
+});
+[/tmp]
+[comment]
+[timed-build file="timed/product_tree" login=1 force=1 minutes=1440 if="[if !variable INDEV]1[/if]"]
+[/comment]
+<div class="[control class row]">
 [if control show_categories]
-
+<UL class="list-group pgroup well" id="nav_menu">
+	<li class="list-group-item list-group-item-b">
+	<h4 class="list-group-item-heading">Product List</h4>
+	</li>
 [query list=1 sql="SELECT prod_group, category FROM products GROUP BY prod_group, category"]
 	[sql-change grp][condition][sql-code][/condition]
-	[sql-alternate except_first]
-			</ul>
-		</li>
-	[/sql-alternate]
-		<li class="dropdown">
-			<a class="dropdown-toggle" data-toggle="dropdown" href="#">[sql-code] <b class="caret"></b></a>
-			[tmp grp][sql-filter string2uri][sql-code][/sql-filter][/tmp]
-			<ul class="dropdown-menu">
-				<li><a href="[area href='[scratch grp]']">All</a></li>
+		[sql-alternate except_first]	</ul>
+		</li>[/sql-alternate]
+		<li class="list-group-item">[tmp grp][sql-filter string2uri][sql-code][/sql-filter][/tmp]
+			<a href="[area href="[scratch grp]"]">[sql-code]</a>
+			<span data-parent="#nav_menu" data-toggle="collapse" data-target="#collapse[scratch grp]" class="showcursor">
+				[if-sql-param category]<i class="indicator glyphicon glyphicon-chevron-right pull-right"></i>[else]&nbsp;&nbsp;[/else][/if-sql-param]
+			</span>
+			<ul class="list-group collapse" id="collapse[scratch grp]">
 	[/sql-change grp]
 	[if-sql-param category]
-				<li><a href="[area href="[scratch grp]/[sql-filter string2uri][sql-pos 1][/sql-filter]"]">[sql-pos 1]</a></li>
+				<li class="cat_li list-group-item">
+					<a href="[area href="[scratch grp]/[sql-filter string2uri][sql-pos 1][/sql-filter]"]">[sql-pos 1]</a>
+				</li>
 	[/if-sql-param]
 	[sql-alternate last_only]
 			</ul>
 		</li>
 	[/sql-alternate]
 [/query]
+</UL>
 
 [else]
-
-[tmp link][value name=more_link filter=uri2string keep=1][/tmp]
+<div class="panel-group">
+<br>
+	<h4>Product List</h4>
 [query list=1 sql="SELECT prod_group FROM products GROUP BY prod_group"]
-	<li[if scratch link eq "[sql-code]"] class=disabled[/if]>
-		<a href="[area href="[sql-filter string2uri][sql-code][/sql-filter]"]">[sql-code]</a>
-		[if scratch link eq "[sql-code]"]
-			<ul class="nav nav-list">
-			[query prefix=cat list=1 sql="SELECT category FROM products WHERE prod_group = [cat-quote][scratch link][/cat-quote] GROUP BY category"]
-				<li><a href="[area href="[value more_link]/[cat-filter string2uri][cat-code][/cat-filter]"]">[cat-code]</a></li>
-			[/query]
-			</ul>
-		[/if]
-	</li>
+<a class="list-group-item" href="[area href="[sql-filter string2uri][sql-code][/sql-filter]"]">[sql-code]</a>
 [/query]
+</div>
 
 [/else]
 [/if]
 
 </ul>
-
+</div>
 <!-- END COMPONENT [control component product_tree] -->

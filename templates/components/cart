@@ -19,6 +19,7 @@ continue_shopping:
 
 [/comment]
 <!-- BEGIN COMPONENT [control component cart] -->
+<div class="[control class row]">
 
 <br><b>[L]Your Current Shopping Cart[/L]:</b><br>
 
@@ -436,5 +437,5 @@ EOF
 </table>
 
 <br><br>
-
+</div>
 <!-- END COMPONENT [control component cart] -->

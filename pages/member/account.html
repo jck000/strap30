@@ -6,15 +6,14 @@
 @_TOP_@
 <!-- BEGIN CONTENT -->
 
-<div class="row-fluid">
-<div class="span1">&nbsp;</div>
-<div class="span10">
+<div class="row">
+<div class="col-md-11 col-md-offset-1">
 
 <h1>[L]Account Maintenance[/L]</h1>
 
 [update values]
 
-[edisplay class="unstyled alert alert-error" keep=1]
+[edisplay class="unstyled alert alert-danger" keep=1]
 [warnings auto=1 list_class="unstyled alert alert-success"]
 
 [userdb function=get_billing_names]
@@ -31,7 +30,7 @@
 [/set]
 
 <form action="[process secure=1]" method="POST" name=checkout>
-<fieldset class="form-horizontal">
+<fieldset class="form-horizontal mt25">
 [form-session-id]
 <input type=hidden name=mv_form_profile value=account_change>
 <input type=hidden name=mv_todo         value=return>
@@ -40,22 +39,23 @@
 
 	[include include/checkout/shipping_address]
 </fieldset>
-<fieldset class="form-inline">
+<fieldset class="form-inline mt25">
 	[include include/checkout/mailing_status]
 		[comment] Reset value variable mail_list in order to be able to unsubscribe from ALL mailinglists.  [/comment]
 		[value name='mail_list' value='']
 </fieldset>
-<fieldset class="form-horizontal">
+<fieldset class="form-horizontal mt25">
 	[include include/checkout/billing_address]
+	<div class="form-group">
+		<div class="col-sm-offset-2 col-sm-10">
+			<button type=submit class="btn btn-primary">[L]Save Account Info[/L]</button> 
+		</div>
+	</div>
+
 </fieldset>
 
-<div style="text-align:center" class="form-actions">
-	<input type=submit value="[L]Save Account Info[/L]" class="btn btn-primary">
-</div>
 </form>
 
-</div>
-<div class="span1">&nbsp;</div>
 </div>
 
 [tmp clear_errors][error all=1 comment="Clear errors"][/tmp]

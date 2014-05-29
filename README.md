@@ -1,15 +1,19 @@
-Bootstrap 2.3.2 Template for Interchange
+Bootstrap 3.1.1 Template for Interchange
 ========================================
 
 This is the Div based Demo for Interchange that modernizes the old
 standard template. It makes use of several newer technologies. jQuery is
 included by default. All table-related layout has been replaced with
 divs. Built on the [Bootstrap Framework, version
-2.3.2](http://getbootstrap.com/2.3.2/).
+3.1.1](http://getbootstrap.com/getting-started/#download).
+
+This is phase 2 of the above modernization. This template is using 
+bootstrap 3, which was a substantially changed css version from 
+bootstrap 2.* . Many things have been changed.
 
 You can [download a customized
-Bootstrap](http://getbootstrap.com/2.3.2/customize.html), and drop it
-into the html/boostrap directory, to load your own colors, etc.
+Bootstrap](http://getbootstrap.com/customize/), and drop it
+into the html/bootstrap directory, to load your own colors, etc.
 
 Created by [Perusion](http://perusion.com), based on the earlier
 standard demo.
@@ -18,6 +22,13 @@ Copyright (C) 2013 Hanson Investments, Inc. d/b/a Perusion
 
 This program is offered without warranty of any kind.
 See file LICENSE for redistribution terms.
+
+Requirements:
+-------------
+
+Works best with the latest Interchange source, unless there is a release
+after Dec 24, 2013:
+	http://ftp.icdevgroup.org/interchange-nightly.tar.gz
 
 Usage:
 ------
@@ -33,107 +44,213 @@ Interchange directory (e.g. /usr/local/interchange). From there, run:
 Some of the changes include:
 ----------------------------
 
-* Consolidated LEFTRIGHT, LEFTONLY, NOLEFT TOP & BOTTOM variables into
-  single TOP & BOTTOM. No longer need "templates/regions", and moved
-  defines into existing "variables/". Changes in templates can still be
-  hard coded in BOTTOM, but the long-present but seldom-used
-  "display_class" in individual page headers is used more now.
+	* reflects items from initial bootstrap 2 conversion. 
+	** reflects changes as of bootstrap 3.0
 
-* Templates leftright, leftonly, noleft, formerly located in
-  "include/layout" have been moved to more appropriately named
-  "templates/layout". This is to consolidate the directory structure and
-  make location of templates more intuitive. Can be easily changed to be
-  more backward-compatible if desired by simply editing
-  "variable/BOTTOM"
+	** This catalog template is a standalone template, and is designed to run display correctly
+	with only bootstrap.css (or bootstrap.min.css). You can modify existing style or even design
+	completely new theme by adding a strap3.css file. A sample file is included and can be
+	activated by uncommenting the line in
 
-* No longer using THEME_CSS.
+		include/structure/head
 
-* All pages, components, forms (everything!) updated to use
-  Bootstrap styles and markup, with HTML5.
+	[comment]Uncomment to use additional css for mods or even entire theme
+	<link rel="stylesheet" media="all" href="__CSS_DIR__/strap3.css">
+	[/comment]
 
-* Uses ISO-8859-1 charset by default, to avoid problems with UTF-8 and
-  Perl. You can easily re-enable UTF-8 by uncommenting the lines in
-  catalog.cfg. Be sure to test all functions for errors, and use at
-  your own risk!
+	**Moved entire head section to 
 
-* [bootmenu] tag to show menus using Bootstrap-compatible styles. No
-  more messy inline Javascript for dropdown menus.
+		include/structure/head
 
-* There may be some concern over the no-hover dropdown menu, which is
-  the Bootstrap standard -- the user must click to see the dropdown, and
-  the parent item's link itself is not clickable. Since Bootstrap is
-  designed for mobile devices as well, and there is no "hover" state on
-  a mobile device, it has to be this way. Feel free to change the bind
-  event on the dropdowns to a "hover" instead of a "click", if you don't
-  need to support mobile. Note that double-click is not an option, since
-  you can't bind both "click" and "dblclick" events on the same element.
+	to make editing more convenient. Same head section is used in all templates.
 
-* Product Groups and Categories use the "ncheck" subroutine in
-  catalog.cfg to allow pretty URLs, such as /Tools/Hand-Saws, rather
-  than scan/search URLs.
+	** Removed some components that no longer work with this layout, or are out moded.
+		product_flyout
 
-* SEO-friendly "more" paging: no more unindexable "more" pages, nor need
-  to use PermanentMore. Now, "more" pages are: /2, /3, /Next, /Previous.
-  Also provides canonical and "rel=prev/next" meta tags.
+	** Modified structure of components so that they can be placed horizontally, or vertically
+	by passing a class in the page like this
 
-* New /All-Products link.
+	[control-set]
+	[component]random[/component]
+	[class]col-sm-12[/class]
+	[output]bottom[/output]
+	[/control-set]
 
-* Searches are now sent as GET requests, not POSTs. Also now uses
-  SearchProfile for very short URLs -- search query is sent in the "s"
-  parameter, for easy tracking via Google Analytics.
+	The way the templates are laid out, the horizontal placements, top and bottom components,
+	are housed in a bootstrap "row" class, so you would want to pass a col- class to keep
+	proper spacing. The left and right components, should be housed within a "row"
+	class, as they are already in a col class. The control default is row, so you do not have to pass
+	anything for those.
 
-* Old product forum has been removed.
+	<div class="[control class row]">
 
-* Survey function has been removed.
+	** Javascript inline as well as linked, is now loaded via script after all elements 
+	have been loaded. We have a function in the head section, "getScript(url,success)", 
+	which is set up to first load JQUERY_LATEST, then load bootstrap.min.js, then to load 
+	any Jquery that is coded into various scratch variables. They are currently:
 
-* Use of UserDB's "indirect_login" by default, to allow emails as
-  usernames (uses a new 'usernick' column).
+				[scratch jquery_after]
+				[scratch jquery_inpage]
+				[scratch jquery_components]
 
-* Password Reset page no longer emails password (bad practice). Now
-  sends a basic encoded link to reset the password, which expires in 1
-  day. Requires installation of Bundle::Interchange CPAN module.
+	as named, they are intended to load jquery or javascript to all templates from jquery after,
+	in the current page only from jquery_inpage, and from components from jquery_components.
+	There is also additional code to accomodate older IE7 and IE8 browsers loading some scripts
+	that adjust for bootstrap functions that are not supported in those browsers.
 
-* Checkout pages have a ton of clean up, and improved with user-
-  experience guidelines. No more "old_browser" checks, nor *_multi
-  include files.
+	**there are examples of how to load script in the demo, in index page, and in templates/components/product_tree
 
-* Multi-page checkout is the default. No more ord/multi.html. The
-  Shipping Address page (ord/shipping.html) now has a login prompt
-  at the top.
+[tmp jquery_inpage]
+[scratch jquery_inpage]
+	$(document).ready( function (){
+		//alert("Test in page js");
+	});
+[/tmp]
 
-* One-page checkout is still included and accessible from the top menu.
-  However, it is only recommended if you have a shipping setup that does
-  not depend on a geographical location; if your shipping changes
-  based on country/state/ZIP, etc, it will not refresh the page to
-  obtain the correct rates. Javascript-based page refreshing is not
-  reliable with modern browers and their auto-fill functions.
+[tmp jquery_components]
+[scratch jquery_components]
+$('#nav_menu .collapse').on('show.bs.collapse', function () {
+    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-down");
+});
+//The reverse of the above on hidden event:
+$('#nav_menu .collapse').on('hide.bs.collapse', function () {
+    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-right");
+});
+[/tmp]
 
-* Google Analytics included if GOOGLE_ANL_ID variable set.
 
-* Profiles moved to include/profiles/
+    **  The doc_root directory now named "repos_for_html" is moved into the catalog root, and can 
+		be symlinked from the actual document root, or contents can simply be moved to the doc 
+		root location once the catalog is created / installed. This allows for easier version 
+		control of the javascript, css, and related.
 
-* Gift certificates (pay certs) supported out-of-the-box. Several code
-  improvements, including ability to validate certificate's check_code
-  and expiration, and ability to pay for entire order or part of order
-  with a gift cert.
+	*	Templates all use HTML 5 based document.
 
-* Stock Alert function updated to use a database table and Job to email
-  when item is back in stock.
+	*	Consolidated LEFTRIGHT, LEFTONLY, NOLEFT TOP & BOTTOM variables
+		into single TOP & BOTTOM. No longer need "templates/regions", 
+		and moved defines into existing "variables/".
+		Changes in templates can still be hard coded in BOTTOM, but the 
+		long present but seldom used "display_class" in individual page
+		headers is more often used.
 
-* Address Book (member/ship_addresses.html, etc) and Saved Carts have
-  been removed. We found these features were too complex and little-used
-  in their current state.
+	*	Templates leftright, leftonly, noleft, formerly located in 
+		"include/layout" have been moved to more appropriately named
+		"templates/". This to consolidate directory structure and make 
+		location of templates more intuitive. Can be easily changed to 
+		be more backward compatible if desired by simply editing 
+		"variable/BOTTOM"
 
-* Admin order_view page updated to show gift_note, tracking_number, and
-  pay_cert totals.
+	**  Templates have been radically modernized, jquery is delayed and loaded at the
+		end of page load, several scratch variables have been added to the jquery loading
+		to allow inclusion of jquery from the page content, components, and other locations.
 
-* Admin "Content" tab is hidden, since old Content Editor not really
-  supported anymore.
 
-* Basic page editor for Admin users is available to pages that include:
-  [tmpn editable]1[/tmpn]. Login to Admin, then browse page. "Edit page
-  data" button will be visible in lower-right corner.
+	* New directory repos_for_html/css added to allow central location for possibly mult
+		css files.
 
-* Page to reconfigure catalog: pages/test/recon.html
+	* New directory repos_for_html/js added to allow central location for possibly mult
+		script files.
 
-* Page to show shipping information: pages/test/ship.html
+	*	No longer using THEME_CSS.
+
+	**	New default directories and related variables added for javascript 
+		and css:
+		CSS_DIR	/bs30/css
+		JS_DIR	/bs30/js
+		optional :
+		FONT_DIR	/bs30/fonts
+
+		Variables used in all template HEAD sections.
+
+	**	Using bootstrap.css.min as default css, using strap30.css as cascaded
+	sheet specific to Interchange and catalog implementation. You should only
+	edit strap30.css, so that new versions of bootstrap.css appear, they can
+	simply be inserted.
+
+    ** All look/feel configuration is done by CSS. It should be quite
+      possible to completely change the look simply by editing
+      _CSS_DIR_/strap30.css and templates/layout/*.
+
+    ** There is no longer any color scheme and no THEME/STYLE
+      variable. Therefore the regions/ directory has been removed.
+
+    * The default for left-hand side is a product tree, for the top
+      bar is a flydown/out menu. Each are editable from within the UI.
+	  ** added category display to product tree, which supports an
+	  exploding menu, more compatible with pad and mobile layouts.
+
+    ** The template layout is contained in templates/layout/*, and
+      by [set display_class]leftonly[/set] you can change the type
+      within the page.
+
+    * The page title, and page banner can be set anywhere before
+      the page footer.
+
+    * There is an alternative multi-page checkout which has received
+      quite a bit of testing.
+
+    * UPS lookup for Canada and the US is supported out of the box.
+
+    * US Postal international shipping is supported.
+
+    * Customer service pages have been spiffed up and improved a bit.
+
+    * If you install Text::Query, the search boxes will use
+      Altavista-style search language.
+
+    * Advanced search page improved quite a bit.
+
+    ** Search in top bar includes autosuggest. IC isolated script: sug
+	located in cgi-bin/ allows quick suggestions by direct db query.
+	Must be configured for your database and fields to be queried.
+
+	** Profiles moved from etc/ to include/profiles
+
+    * All shipping files/databases moved to products/ship.
+
+    * No more etc/after.cfg -- all configuration in catalog.cfg.
+
+    * A few new feature demonstrations included.
+
+    * Some files have been moved to unclutter the top level
+      of the pages/ directory.
+
+    * Other minor changes.
+
+	** Added directive to point some non-version-tracked type files
+	to separate directory.
+
+RunDir	run
+
+
+	NOTES RE NVEND and new templates
+
+	#20140409 starting notes for bs30 upgrade
+
+	Added code to Interpolate to facilitate a cleaner implementation of more list using link_template
+	While <UL><li> is currently elements of choice for list, kept backwards compatible for numeric flat list.
+	Current item used to be simply enclosed with 
+	
+	<strong>1</strong>
+
+	But that would not allow use of list style in template. So we need to commit changes to Interpolate.pm
+	sub more_link_template and sub more_link
+
+	Either of the more-list configurations below can be used. 
+	
+
+	[more-list]
+		[link-template]<li class="$CLASS$"><a href="$URL$">$ANCHOR$</a></li>[/link-template]
+		<ul class="pagination pagination-centered">{PREV_LINK}{MORE_LIST}{NEXT_LINK}</ul>
+	[/more-list]
+
+	[more-list]
+	[more]
+	[/more-list]
+
+
+The intent is to slowly document each of the areas of this template with
+online help to provide a constantly-improving catalog application for
+use by Interchange users not wishing to greatly change the foundation.
+
+

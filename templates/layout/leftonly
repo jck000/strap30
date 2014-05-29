@@ -1,50 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<meta charset="[either]__MV_HTTP_CHARSET__[or]iso-8859-1[/either]">	
-	<title>[scratch page_title]</title>
-	{{CSS}}
-	<meta name="viewport" content="initial-scale=1.0, width=device-width">
-	[scratch meta_header]
+	[include include/structure/head]
 </head>
 <body>
-
-<div class="container-fluid">
-	<div class="row-fluid">
-	    <a href="[area]"><img src="__LOGO__" alt="__COMPANY__"></a>
-		<div class="navbar navbar-inverse">
-			<div class="navbar-inner">
-				<div class="container">
-					{{TOP_MENU}}
-					{{TOP_SEARCH}}
-				</div>
-			</div>
+<div class="container">
+	<div class="row">
+		<div class="col-lg-5 col-md-8 col-sm-8 col-xs-12">
+			<a href="[area index]"><img src="__LOGO__" alt="__COMPANY__" class="img-responsive mt5 mb5"></a>
 		</div>
 	</div>
-	<div class="row-fluid">
-
-		<div class="span3">
+	<div class="row">
+		<nav class="navbar navbar-inverse" role="navigation">
+			<div class="container-fluid">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#ic-navbar">
+						<span class="sr-only">Toggle Navigation</span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+						<span class="icon-bar"></span>
+					</button>
+				</div>
+				<div class="collapse navbar-collapse" id="ic-navbar">
+						{{TOP_MENU}}
+						{{TOP_SEARCH}}
+				</div>
+			</div>
+		</nav>
+	</div>
+	<div class="row">
+		<div class="col-md-3 locol1">
 			{{LEFT}}
 		</div>
-
-		<div class="span9">
+		<div class="col-md-9">
 			{{TOP?}}
-				{{TOP}}
+			<div class="row">
+						{{TOP}}
+			</div>
 			{{/TOP?}}
-			{{:DEFAULT}}
+			<div class="row">
+					{{:DEFAULT}}
+			</div>
 			{{BOTTOM?}}
-				<br>
-				{{BOTTOM}}
+			<div class="row">
+					{{BOTTOM}}
+			</div>
 			{{/BOTTOM?}}
 		</div>
 
 	</div>
-	<div class="row-fluid">
+	<div class="row">
 		{{COPYRIGHT}}
 	</div>
 </div>
-
-{{JS_BOTTOM}}
 [scratch meta_footer]
+[scratch footer]
+[if var GOOGLE_ANL_ID]
+<!-- Google Analytics: set GOOGLE_ANL_ID to be your site's ID. -->
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', '[var GOOGLE_ANL_ID]']);
+  _gaq.push(['_trackPageview']);
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+[/if]
 </body>
 </html>

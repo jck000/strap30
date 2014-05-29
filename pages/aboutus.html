@@ -1,3 +1,9 @@
+[comment]
+ui_template: Yes
+ui_template_name: leftonly
+[/comment]
+
+[tmp page_banner][L]About Us[/L][/tmp]
 [tmp page_title]__COMPANY__ -- [L]About Us[/L][/tmp]
 [tmp display_class]leftonly[/tmp]
 
@@ -5,43 +11,58 @@
 
 [control-set]
 [component]search_box_small[/component]
-[/control-set]
-
-[control-set]
-[component]product_tree[/component]
 [output]left[/output]
 [/control-set]
 
 [control-set]
-[component]promo[/component]
-[matches]4[/matches]
-[cols]4[/cols]
-[banner][L]Specials[/L][/banner]
+[component]product_tree[/component]
+[show_categories]1[/show_categories]
+[output]left[/output]
+[/control-set]
+
+[control-set]
+[component][/component]
+[/control-set]
+
+[control-set]
+[component]best[/component]
 [output]bottom[/output]
+[class]col-sm-12[/class]
+[cols]4[/cols]
+[matches]4[/matches]
 [/control-set]
 
 [control reset=1]
 
 @_TOP_@
-<!-- BEGIN CONTENT -->
 
-<h1>[L]About Us[/L]: <b>__COMPANY__</b>!</h1>
+<!-- BEGIN CONTENT -->
+<div class="col-sm-12">
+
+<br>
+<table class="table">
+<tr>
+  <td>
+	<h1>
+	[L]About Us[/L]: <b>__COMPANY__</b>!
+	</h1>
 
 	<p>
-	[msg arg.0="<a href='[area contact]'>" arg.1="</a>"]Please %scontact us%s if you have any questions for us.[/msg]<br>
+	[msg arg.0="[page contact]" arg.1="</a>"]Please %scontact us%s if you have any questions for us.[/msg]<br>
 	</p>
 
 	<p>
-	[msg arg.0="<a href='http://www.perusion.com/'>" arg.1="</a>"]This is a demo store. If you would like further information on how you can build a store or how you can get custom services, please %svisit our web site%s.[/msg]
+	[msg arg.0="<a href='@_INTERCHANGE_URL_@'>" arg.1="</a>"]This is a demo store. If you would like further information on how you can build a store or how you can get custom services, please %svisit our web site%s.[/msg]
 	</p>
 
     <p>
-	[L]Or send an e-mail to[/L]: <a href="mailto:sales@perusion.com">sales@perusion.com</a>.
-	</p>
+	[L]Or send an e-mail to[/L]: <a href="mailto:@_INTERCHANGE_EMAIL_@">@_INTERCHANGE_EMAIL_@</a>.
+	<br><br></p>
+  </td>
+</tr>
+</table>
 
-	<p>
-	[msg arg.0="<a href='@_INTERCHANGE_URL_@'>" arg.1="</a>"]Catalog based on Interchange Standard template, as distributed with %sInterchange%s.[/msg]
-	</p>
-
+</div>
 <!-- END CONTENT -->
+
 @_BOTTOM_@

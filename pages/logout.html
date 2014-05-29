@@ -4,6 +4,7 @@
 ui_template: Yes
 ui_template_name: leftonly
 [/comment]
+[tmp display_class]leftright[/tmp]
 
 [control reset=1]
 
@@ -17,6 +18,18 @@ ui_template_name: leftonly
 
 [control-set]
 [component]product_tree[/component]
+[show_categories]1[/show_categories]
+[output]left[/output]
+[/control-set]
+[control-set]
+	[component]random[/component]
+	[banner][L]Random Component[/L][/banner]
+	[buttons]1[/buttons]
+	[cols]1[/cols]
+	[matches]5[/matches]
+	[pool]100[/pool]
+	[size]5[/size]
+	[output]right[/output]
 [/control-set]
 
 [control reset=1]
@@ -25,8 +38,12 @@ ui_template_name: leftonly
 @_TOP_@
 <!-- BEGIN CONTENT -->
 
-<p>[L]You have been logged out.[/L]</p>
-<p>[L]Thank you for visiting.[/L]</p>
+<div class="col-md-12">
+	<div class="alert alert-success ml20">
+		[L]You have been logged out.[/L]<br>
+		[L]Thank you for visiting.[/L]
+	</div>
+</div>
 
 <!-- END CONTENT -->
 @_BOTTOM_@

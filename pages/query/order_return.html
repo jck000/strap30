@@ -14,6 +14,8 @@ ui_template_name: leftonly
 
 [control-set]
 [component]product_tree[/component]
+[show_categories]1[/show_categories]
+[output]left[/output]
 [/control-set]
 
 [control-set]
@@ -25,6 +27,7 @@ ui_template_name: leftonly
 @_TOP_@
 
 <!-- BEGIN CONTENT -->
+<div class="col-sm-12">
 
 [if session arg]
 	[seti arg][data session arg][/seti]
@@ -170,14 +173,15 @@ return unless
 
 [else]
 
+<p class="alert alert-danger">
 [L]You may only return items from orders that have been fully shipped.[/L] 
 [msg arg.0="<a href='[area member/service]'>" arg.1="</a>"]Please contact %sCustomer Service%s for assistance.[/msg]
-
+</p>
 [/else]
 [/if]
 
 <BR CLEAR=ALL>
-
+</div>
 <!-- END CONTENT -->
 
 @_BOTTOM_@
