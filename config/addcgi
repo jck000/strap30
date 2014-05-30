@@ -2,6 +2,7 @@
 
 CONFDIR=__MVC_RELOCATE____MVC_CATROOT__/config/cgi
 CGIDIR=__MVC_CGIDIR__
+CONFDIRFILES=__MVC_RELOCATE____MVC_CATROOT__/config/cgi/*
 
 die() {
 	echo $1
@@ -24,13 +25,15 @@ else
 	die "Don't have cgidir $CGIDIR: $!"
 fi
 
-for f 
+for f in $CONFDIRFILES
 do
+echo "testing f:$f"
 	if test -f $CGIDIR/$f
 	then
 		echo "$f appears to be in cgi directory, skipping."
 	else
 		cp $f $CGIDIR || die "Cannot copy $f to $CGIDIR: $!"
+		echo "$f has been copied to cgi dir $CGIDIR, remember to set proper ownership and permissions for proper function and security"
 	fi
 done
 

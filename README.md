@@ -203,6 +203,9 @@ $('#nav_menu .collapse').on('hide.bs.collapse', function () {
     ** Search in top bar includes autosuggest. IC isolated script: sug
 	located in cgi-bin/ allows quick suggestions by direct db query.
 	Must be configured for your database and fields to be queried.
+	Also, while this file is automatically placed in your CGI BIN, it
+	does NOT have proper permissions to execute out of the box. This is because
+	each system will vary, and it is up to the user to set proper permissions.
 
 	** Profiles moved from etc/ to include/profiles
 
