@@ -47,6 +47,8 @@ Some of the changes include:
 	* reflects items from initial bootstrap 2 conversion. 
 	** reflects changes as of bootstrap 3.0
 
+	Attempted to make catalog and directory structures more version control, (git) friendly.
+
 	** This catalog template is a standalone template, and is designed to run display correctly
 	with only bootstrap.css (or bootstrap.min.css). You can modify existing style or even design
 	completely new theme by adding a strap3.css file. A sample file is included and can be
@@ -119,10 +121,27 @@ Some of the changes include:
 	[/tmp]
 
 
-    **  The doc_root directory now named "repos_for_html" is moved into the catalog root, and can 
-		be symlinked from the actual document root, or contents can simply be moved to the doc 
-		root location once the catalog is created / installed. This allows for easier version 
-		control of the javascript, css, and related.
+    **  The html doc_root directory now named "repos_for_html" in the template, is copied to the
+		appropriate html docs location by makecat ... using the answers you supply to the following question:
+
+		SampleHtml? /home/username/www/strap30
+
+		This by default will *not* add a "repos_for_html" to your catalog directory. It will add the following
+		directories and files to your html doc root:
+		
+		css/        
+		fonts/      
+		images/     
+		index.html  
+		js/
+
+
+		If you are using version control on your catalog, it is recommended to create a directory like
+		"repos_for_html" in the catalog directory, and regularly update it with the contents of your 
+		html docs prior to commiting a version. Something like and rsync script, cronjob, ic job, or 
+		even just:
+
+		cp -a /home/username/www/strap30/*  /home/username/catalogs/strap30/repos_for_html/
 
 	*	Templates all use HTML 5 based document.
 
@@ -133,7 +152,7 @@ Some of the changes include:
 		long present but seldom used "display_class" in individual page
 		headers is more often used.
 
-	*	Templates leftright, leftonly, noleft, formerly located in 
+	*	Templates leftright, leftonly, noleft, and newly added rightonly, formerly located in 
 		"include/layout" have been moved to more appropriately named
 		"templates/". This to consolidate directory structure and make 
 		location of templates more intuitive. Can be easily changed to 
@@ -151,14 +170,16 @@ Some of the changes include:
 	* New directory repos_for_html/js added to allow central location for possibly mult
 		script files.
 
+	* New directory repos_for_html/fonts added to allow central location for possibly mult
+		font files.
+
 	*	No longer using THEME_CSS.
 
-	**	New default directories and related variables added for javascript 
-		and css:
-		CSS_DIR	/bs30/css
-		JS_DIR	/bs30/js
-		optional :
-		FONT_DIR	/bs30/fonts
+	**	New default directories and related variables added for javascript, css, and fonts:
+
+		CSS_DIR	/strap30/css
+		JS_DIR	/strap30/js
+		FONT_DIR	/strap30/fonts
 
 		Variables used in all template HEAD sections.
 
@@ -201,11 +222,13 @@ Some of the changes include:
     * Advanced search page improved quite a bit.
 
     ** Search in top bar includes autosuggest. IC isolated script: sug
-	located in cgi-bin/ allows quick suggestions by direct db query.
-	Must be configured for your database and fields to be queried.
-	Also, while this file is automatically placed in your CGI BIN, it
+	located in cgi-bin/ allows quick suggestions via ajax using direct 
+	db query, avoiding overhead of IC.
+	While this file is automatically placed in your CGI BIN, it
 	does NOT have proper permissions to execute out of the box. This is because
 	each system will vary, and it is up to the user to set proper permissions.
+	Additionally, the file itself will need to be edited to point to the proper
+	database, database table, database fields, and catalog.
 
 	** Profiles moved from etc/ to include/profiles
 
@@ -221,14 +244,15 @@ Some of the changes include:
     * Other minor changes.
 
 	** Added directive to point some non-version-tracked type files
-	to separate directory.
+	to separate directory. This directs at least catalogname.structure 
+	and status.catalogname to a separate directory and out of catalog root.
 
-RunDir	run
+	RunDir	run
 
 
 	NOTES RE NVEND and new templates
 
-	#20140409 starting notes for bs30 upgrade
+	#20140409 starting notes for strap30 upgrade
 
 	Added code to Interpolate to facilitate a cleaner implementation of more list using link_template
 	While <UL><li> is currently elements of choice for list, kept backwards compatible for numeric flat list.
