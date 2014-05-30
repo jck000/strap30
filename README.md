@@ -100,23 +100,23 @@ Some of the changes include:
 
 	**there are examples of how to load script in the demo, in index page, and in templates/components/product_tree
 
-[tmp jquery_inpage]
-[scratch jquery_inpage]
-	$(document).ready( function (){
-		//alert("Test in page js");
-	});
-[/tmp]
+	[tmp jquery_inpage]
+	[scratch jquery_inpage]
+		$(document).ready( function (){
+			//alert("Test in page js");
+		});
+	[/tmp]
 
-[tmp jquery_components]
-[scratch jquery_components]
-$('#nav_menu .collapse').on('show.bs.collapse', function () {
-    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-down");
-});
-//The reverse of the above on hidden event:
-$('#nav_menu .collapse').on('hide.bs.collapse', function () {
-    $(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-right");
-});
-[/tmp]
+	[tmp jquery_components]
+	[scratch jquery_components]
+	$('#nav_menu .collapse').on('show.bs.collapse', function () {
+		$(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-right").addClass("glyphicon-chevron-down");
+	});
+	//The reverse of the above on hidden event:
+	$('#nav_menu .collapse').on('hide.bs.collapse', function () {
+		$(this).prev().find(".glyphicon").removeClass("glyphicon-chevron-down").addClass("glyphicon-chevron-right");
+	});
+	[/tmp]
 
 
     **  The doc_root directory now named "repos_for_html" is moved into the catalog root, and can 
