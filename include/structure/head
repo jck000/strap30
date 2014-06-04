@@ -22,35 +22,12 @@
         };
         head.appendChild(script);
       }
-        getScript('__JQUERY_LATEST__',function(){
+      getScript('__JQUERY_LATEST__',function(){
 			getScript('__JS_DIR__/bootstrap.min.js',function(){
 				// JQUERY RELATED CODE GOES HERE AND IS EXECUTED AFTER JQUERY LOADS
 				[scratch jquery_after]
 				[scratch jquery_inpage]
 				[scratch jquery_components]
-				//functions for fp_search
-				function lookup(inputString,limitStart,limitCurrent) {
-				  if(inputString.length == 0) {
-				   // Hide the suggestion box.
-				   $('#suggestions').hide();
-				  } else {
-				   $.post("/c/sug", {q: ""+inputString+"", limitStart: ""+limitStart+""}, function(data){
-					if(data.length > 0) {
-					 $('#suggestions').show();
-					 $('#autoSuggestionsList').html(data);
-					}
-					else {
-					 $('#suggestions').hide();
-					}
-				   });
-				  }
-				 } // lookup
-				function fill(thisValue) {
-					$('#top_searchtext').val(thisValue);
-					$('#top_search').submit();
-					setTimeout("$('#suggestions').hide();", 200);
-				}
-
 			});
 			//This could be removed, included because lots of ie8 still out there
             if (!jQuery.support.leadingWhitespace){
@@ -59,8 +36,30 @@
                 getScript('//oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js',function(){ });
             }
 
-        });
+      });
     })();
+	//fp_search function
+	function lookup(inputString,limitStart,limitCurrent) {
+	  if(inputString.length == 0) {
+	   // Hide the suggestion box.
+	   $('#suggestions').hide();
+	  } else {
+	   $.post("/c/sug", {q: ""+inputString+"", limitStart: ""+limitStart+""}, function(data){
+		if(data.length > 0) {
+		 $('#suggestions').show();
+		 $('#autoSuggestionsList').html(data);
+		}
+		else {
+		 $('#suggestions').hide();
+		}
+	   });
+	  }
+	 } // lookup
+	function fill(thisValue) {
+		$('#top_searchtext').val(thisValue);
+		$('#top_search').submit();
+		setTimeout("$('#suggestions').hide();", 200);
+	}
 	</script>
 	[scratch js_links]
 	<meta name="viewport" content="initial-scale=1.0, width=device-width">
